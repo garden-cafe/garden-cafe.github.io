@@ -1,0 +1,4889 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garden — электронное меню</title>
+<meta name="theme-color" content="#0a2417">
+<style>html,body{margin:0;padding:0;background:#fbfbf8}body{-webkit-text-size-adjust:100%}</style>
+</head>
+<body>
+<style id="garden-style">
+/* =========================================================
+   GARDEN — электронное меню
+   Все стили изолированы внутри #garden-app
+   ========================================================= */
+
+#garden-app {
+  --g-ink: #0c1a12;
+  --g-ink-soft: #3c4c42;
+  --g-muted: #7b8a80;
+  --g-900: #0a2417;
+  --g-800: #103321;
+  --g-700: #17452c;
+  --g-600: #1e5a38;
+  --g-500: #2a7a4c;
+  --g-400: #4d9a6c;
+  --g-100: #e6f0e9;
+  --g-50: #f2f7f3;
+  --g-line: #e3eae4;
+  --g-cream: #fbfbf8;
+  --g-white: #ffffff;
+  --g-red: #b4472f;
+  --g-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  --g-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --g-shadow: 0 12px 40px rgba(10, 36, 23, 0.12);
+  --g-r: 16px;
+
+  position: relative;
+  isolation: isolate;
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: var(--g-cream);
+  color: var(--g-ink);
+  font-family: var(--g-sans);
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 400;
+  text-align: left;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: visible;
+}
+
+#garden-app *,
+#garden-app *::before,
+#garden-app *::after {
+  box-sizing: border-box;
+}
+
+#garden-app h1,
+#garden-app h2,
+#garden-app h3,
+#garden-app h4,
+#garden-app p {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+}
+
+#garden-app img {
+  display: block;
+  max-width: 100%;
+}
+
+#garden-app button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#garden-app input,
+#garden-app textarea,
+#garden-app select {
+  font-family: var(--g-sans);
+  color: var(--g-ink);
+}
+
+#garden-app a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#garden-app [hidden] {
+  display: none !important;
+}
+
+#garden-app svg {
+  display: block;
+}
+
+/* ---------- top bar ---------- */
+
+#garden-app .g-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  background: rgba(251, 251, 248, 0.92);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--g-line);
+}
+
+#garden-app .g-topbar-in {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 9px 12px;
+  min-height: 56px;
+}
+
+#garden-app .g-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+#garden-app .g-logo-mark {
+  width: 24px;
+  height: 24px;
+  color: var(--g-600);
+}
+
+#garden-app .g-logo-text {
+  font-family: var(--g-serif);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+#garden-app .g-searchfield {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 12px;
+  background: var(--g-white);
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+}
+
+#garden-app .g-searchfield svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  color: var(--g-muted);
+}
+
+#garden-app .g-search-input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+#garden-app .g-search-input::placeholder {
+  color: var(--g-muted);
+}
+
+#garden-app .g-search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+#garden-app .g-search-clear {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--g-50);
+  color: var(--g-ink-soft);
+  font-size: 15px;
+  line-height: 22px;
+  text-align: center;
+}
+
+#garden-app .g-search-clear svg {
+  width: 11px;
+  height: 11px;
+}
+
+#garden-app .g-searchfield.has-value .g-search-clear,
+#garden-app.is-searching .g-search-clear {
+  display: flex;
+}
+
+#garden-app.is-searching .g-searchfield {
+  display: flex;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  height: 40px;
+  background: var(--g-white);
+  box-shadow: 0 6px 24px rgba(10, 36, 23, 0.1);
+}
+
+#garden-app.is-searching .g-logo,
+#garden-app.is-searching .g-actions {
+  visibility: hidden;
+}
+
+#garden-app .g-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+#garden-app .g-round {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--g-ink);
+  transition: background 0.18s ease;
+}
+
+#garden-app .g-round:active {
+  background: var(--g-50);
+}
+
+#garden-app .g-round svg {
+  width: 20px;
+  height: 20px;
+}
+
+#garden-app .g-cart-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--g-800);
+  color: #fff;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+#garden-app .g-cart-button svg {
+  width: 19px;
+  height: 19px;
+}
+
+#garden-app .g-cart-button:active {
+  transform: scale(0.94);
+}
+
+#garden-app .g-cart-count {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--g-500);
+  border: 2px solid var(--g-cream);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 14px;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#garden-app .g-cart-count.is-on {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------- hero ---------- */
+
+#garden-app .g-hero {
+  position: relative;
+  margin: 12px;
+  padding: 30px 22px 26px;
+  border-radius: 22px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 150% at 88% 8%, rgba(77, 154, 108, 0.28) 0%, rgba(77, 154, 108, 0) 55%),
+    radial-gradient(90% 120% at 0% 100%, rgba(42, 122, 76, 0.22) 0%, rgba(42, 122, 76, 0) 60%),
+    linear-gradient(155deg, #0d2c1c 0%, #0a2417 55%, #071c11 100%);
+  color: #fff;
+}
+
+#garden-app .g-hero-leaf {
+  position: absolute;
+  right: -34px;
+  top: -26px;
+  width: 190px;
+  height: 190px;
+  color: rgba(255, 255, 255, 0.07);
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+#garden-app .g-hero-in {
+  position: relative;
+  z-index: 2;
+}
+
+#garden-app .g-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 5px 12px 5px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+#garden-app .g-eyebrow-dot {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--g-500);
+  color: #fff;
+}
+
+#garden-app .g-eyebrow-dot svg {
+  width: 11px;
+  height: 11px;
+}
+
+#garden-app .g-title {
+  font-family: var(--g-serif);
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+}
+
+#garden-app .g-tagline {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+#garden-app .g-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin-top: 22px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+#garden-app .g-hero-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#garden-app .g-hero-meta svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+}
+
+/* ---------- category chips ---------- */
+
+#garden-app .g-chips-wrap {
+  position: sticky;
+  top: 56px;
+  z-index: 60;
+  margin-top: 2px;
+  padding: 10px 0;
+  background: linear-gradient(180deg, var(--g-cream) 70%, rgba(251, 251, 248, 0));
+}
+
+#garden-app .g-chips {
+  display: flex;
+  gap: 7px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1px 12px 3px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#garden-app .g-chips::-webkit-scrollbar {
+  display: none;
+}
+
+#garden-app .g-chip {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  background: var(--g-white);
+  color: var(--g-ink-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+}
+
+#garden-app .g-chip-count {
+  color: var(--g-muted);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+
+#garden-app .g-chip.is-active {
+  background: var(--g-800);
+  border-color: var(--g-800);
+  color: #fff;
+}
+
+#garden-app .g-chip.is-active .g-chip-count {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- menu ---------- */
+
+#garden-app .g-menu {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 6px 12px 40px;
+  min-height: 40vh;
+}
+
+#garden-app .g-sec {
+  padding-top: 22px;
+  scroll-margin-top: 110px;
+}
+
+#garden-app .g-sec:first-child {
+  padding-top: 8px;
+}
+
+#garden-app .g-sec-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+#garden-app .g-sec-title {
+  font-family: var(--g-serif);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.005em;
+  color: var(--g-ink);
+}
+
+#garden-app .g-sec-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--g-100);
+  color: var(--g-700);
+  font-size: 10.5px;
+  font-weight: 800;
+  transform: translateY(1px);
+}
+
+#garden-app .g-card-media-wrap {
+  position: relative;
+  display: block;
+}
+
+#garden-app .g-sec-line {
+  flex: 1;
+  height: 1px;
+  background: var(--g-line);
+}
+
+#garden-app .g-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px 8px;
+}
+
+#garden-app .g-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+  border-radius: 14px;
+  background: transparent;
+  transition: transform 0.18s ease;
+}
+
+#garden-app .g-card:active {
+  transform: scale(0.975);
+}
+
+#garden-app .g-card-media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #17452c 0%, #0d2c1c 100%);
+}
+
+#garden-app .g-card-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(90% 70% at 75% 15%, rgba(255, 255, 255, 0.1), transparent 60%),
+    radial-gradient(70% 70% at 15% 95%, rgba(77, 154, 108, 0.28), transparent 60%);
+  pointer-events: none;
+}
+
+#garden-app .g-card-media::after {
+  content: "";
+  position: absolute;
+  inset: 10%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+#garden-app .g-card-media.tone-2 {
+  background: linear-gradient(150deg, #1e5a38 0%, #123a25 100%);
+}
+
+#garden-app .g-card-media.tone-3 {
+  background: linear-gradient(150deg, #e8f1ea 0%, #d7e7db 100%);
+}
+
+#garden-app .g-card-media.tone-3::before {
+  background: radial-gradient(90% 70% at 75% 15%, rgba(255, 255, 255, 0.55), transparent 62%);
+}
+
+#garden-app .g-card-media.tone-3::after {
+  border-color: rgba(23, 69, 44, 0.14);
+}
+
+#garden-app .g-card-media.tone-4 {
+  background: linear-gradient(150deg, #d9e9de 0%, #bcd8c5 100%);
+}
+
+#garden-app .g-card-media.tone-4::before {
+  background: radial-gradient(90% 70% at 25% 15%, rgba(255, 255, 255, 0.5), transparent 65%);
+}
+
+#garden-app .g-card-media.tone-4::after {
+  border-color: rgba(23, 69, 44, 0.16);
+}
+
+#garden-app .g-mono {
+  position: relative;
+  z-index: 2;
+  font-family: var(--g-serif);
+  font-size: clamp(30px, 11vw, 44px);
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.88);
+  user-select: none;
+}
+
+#garden-app .g-card-media.tone-3 .g-mono,
+#garden-app .g-card-media.tone-4 .g-mono {
+  color: rgba(23, 69, 44, 0.72);
+}
+
+#garden-app .g-card-img {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#garden-app .g-card-badge {
+  position: absolute;
+  z-index: 3;
+  left: 6px;
+  top: 6px;
+  max-width: calc(100% - 12px);
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--g-800);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#garden-app .g-card-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.5em;
+  margin-top: 7px;
+  color: var(--g-ink);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+#garden-app .g-card-price {
+  margin-top: 3px;
+  color: var(--g-600);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+#garden-app .g-card-price small {
+  color: var(--g-muted);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- empty / no results ---------- */
+
+#garden-app .g-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px 60px;
+  text-align: center;
+}
+
+#garden-app .g-empty-ico {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--g-100);
+  color: var(--g-600);
+  margin-bottom: 14px;
+}
+
+#garden-app .g-empty-ico svg {
+  width: 26px;
+  height: 26px;
+}
+
+#garden-app .g-empty-title {
+  font-family: var(--g-serif);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+#garden-app .g-empty-text {
+  max-width: 280px;
+  margin-top: 6px;
+  color: var(--g-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#garden-app .g-empty .g-btn {
+  margin-top: 18px;
+}
+
+/* ---------- buttons ---------- */
+
+#garden-app .g-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 18px;
+  border: 1px solid var(--g-line);
+  border-radius: 999px;
+  background: var(--g-white);
+  color: var(--g-ink);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
+}
+
+#garden-app .g-btn:active {
+  transform: scale(0.97);
+}
+
+#garden-app .g-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+#garden-app .g-btn-primary {
+  background: var(--g-800);
+  border-color: var(--g-800);
+  color: #fff;
+}
+
+#garden-app .g-btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--g-ink-soft);
+}
+
+#garden-app .g-btn-block {
+  width: 100%;
+}
+
+#garden-app .g-btn[disabled] {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ---------- footer ---------- */
+
+#garden-app .g-footer {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 26px 16px 110px;
+  text-align: center;
+  color: var(--g-muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+#garden-app .g-footer-brand {
+  font-family: var(--g-serif);
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  color: var(--g-ink-soft);
+  text-transform: uppercase;
+}
+
+#garden-app .g-footer-owner {
+  margin-top: 8px;
+  text-decoration: underline;
+  text-decoration-color: rgba(123, 138, 128, 0.4);
+  text-underline-offset: 3px;
+  font-size: 10.5px;
+}
+
+/* ---------- cart bar ---------- */
+
+#garden-app .g-cartbar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 65;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: auto;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 10px 10px 10px 16px;
+  border-radius: 16px;
+  background: var(--g-800);
+  color: #fff;
+  box-shadow: 0 14px 40px rgba(8, 29, 19, 0.32);
+  transform: translateY(140%);
+  opacity: 0;
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease;
+  pointer-events: none;
+}
+
+#garden-app .g-cartbar.is-on {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#garden-app .g-cartbar-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+#garden-app .g-cartbar-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+#garden-app .g-cartbar-title {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+#garden-app .g-cartbar-sum {
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+#garden-app .g-cartbar-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 11px;
+  background: var(--g-400);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#garden-app .g-cartbar-go svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ---------- overlay + sheets ---------- */
+
+#garden-app .g-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: none;
+}
+
+#garden-app .g-layer.is-open {
+  display: block;
+}
+
+#garden-app .g-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 20, 13, 0.5);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: g-fade 0.25s ease both;
+}
+
+#garden-app .g-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 92vh;
+  max-height: 92dvh;
+  background: var(--g-white);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -18px 60px rgba(6, 20, 13, 0.22);
+  overflow: hidden;
+  animation: g-up 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+#garden-app .g-sheet-close {
+  position: absolute;
+  z-index: 5;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--g-ink);
+  box-shadow: 0 2px 10px rgba(10, 36, 23, 0.12);
+  font-size: 20px;
+  line-height: 1;
+}
+
+#garden-app .g-sheet-close svg {
+  width: 14px;
+  height: 14px;
+}
+
+#garden-app .g-sheet-grab {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 4px;
+  margin: 8px auto 0;
+  border-radius: 999px;
+  background: var(--g-line);
+}
+
+#garden-app .g-sheet-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+#garden-app .g-sheet-pad {
+  padding: 18px 18px 20px;
+}
+
+#garden-app .g-sheet-foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--g-line);
+  background: var(--g-white);
+}
+
+/* dish sheet */
+
+#garden-app .g-dish-media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: linear-gradient(150deg, #17452c 0%, #0d2c1c 100%);
+}
+
+#garden-app .g-dish-media .g-mono {
+  font-size: 64px;
+}
+
+#garden-app .g-dish-media .g-card-badge {
+  top: 14px;
+  left: 14px;
+  font-size: 9px;
+}
+
+#garden-app .g-dish-title {
+  font-family: var(--g-serif);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+#garden-app .g-dish-desc {
+  margin-top: 8px;
+  color: var(--g-ink-soft);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+#garden-app .g-dish-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+#garden-app .g-dish-price strong {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--g-700);
+}
+
+#garden-app .g-dish-price span {
+  color: var(--g-muted);
+  font-size: 11px;
+}
+
+#garden-app .g-group {
+  margin-top: 20px;
+}
+
+#garden-app .g-group-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 9px;
+  color: var(--g-ink);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#garden-app .g-group-title span {
+  color: var(--g-muted);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+#garden-app .g-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+#garden-app .g-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid var(--g-line);
+  border-radius: 10px;
+  background: var(--g-white);
+  color: var(--g-ink-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  transition: border-color 0.14s ease, background 0.14s ease, color 0.14s ease;
+}
+
+#garden-app .g-opt small {
+  color: var(--g-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+#garden-app .g-opt.is-active {
+  border-color: var(--g-600);
+  background: var(--g-50);
+  color: var(--g-800);
+  box-shadow: inset 0 0 0 1px var(--g-600);
+}
+
+#garden-app .g-opt.is-active small {
+  color: var(--g-600);
+}
+
+#garden-app .g-stepper {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  height: 44px;
+  padding: 0 4px;
+  border: 1px solid var(--g-line);
+  border-radius: 12px;
+  background: var(--g-white);
+}
+
+#garden-app .g-stepper button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  color: var(--g-ink);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+#garden-app .g-stepper button:disabled {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+#garden-app .g-stepper button:active {
+  background: var(--g-50);
+}
+
+#garden-app .g-stepper-val {
+  min-width: 24px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+#garden-app .g-add-btn {
+  flex: 1 1 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 12px;
+  background: var(--g-800);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  transition: transform 0.16s ease, background 0.16s ease;
+}
+
+#garden-app .g-add-btn:active {
+  transform: scale(0.985);
+  background: var(--g-900);
+}
+
+#garden-app .g-add-btn b {
+  font-weight: 800;
+}
+
+/* cart sheet */
+
+#garden-app .g-sheet-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--g-line);
+}
+
+#garden-app .g-sheet-head h2 {
+  font-family: var(--g-serif);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+#garden-app .g-sheet-head .g-sheet-count {
+  color: var(--g-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+#garden-app .g-sheet-head .g-sheet-close {
+  position: static;
+  margin-left: auto;
+  background: var(--g-50);
+  box-shadow: none;
+}
+
+#garden-app .g-cart-empty {
+  padding: 46px 24px;
+  text-align: center;
+}
+
+#garden-app .g-cart-empty svg {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 12px;
+  color: var(--g-400);
+}
+
+#garden-app .g-cart-empty p {
+  color: var(--g-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#garden-app .g-cart-list {
+  padding: 4px 18px 0;
+}
+
+#garden-app .g-cart-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--g-line);
+}
+
+#garden-app .g-cart-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 11px;
+  overflow: hidden;
+  background: linear-gradient(150deg, #17452c 0%, #0d2c1c 100%);
+}
+
+#garden-app .g-cart-thumb .g-mono {
+  font-size: 24px;
+}
+
+#garden-app .g-cart-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#garden-app .g-cart-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#garden-app .g-cart-name {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+#garden-app .g-cart-meta {
+  margin-top: 3px;
+  color: var(--g-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+#garden-app .g-cart-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+#garden-app .g-cart-item .g-stepper {
+  height: 30px;
+  padding: 0 2px;
+  border-radius: 9px;
+}
+
+#garden-app .g-cart-item .g-stepper button {
+  width: 26px;
+  height: 26px;
+  font-size: 16px;
+}
+
+#garden-app .g-cart-item .g-stepper-val {
+  min-width: 18px;
+  font-size: 12px;
+}
+
+#garden-app .g-cart-price {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+#garden-app .g-cart-remove {
+  color: var(--g-muted);
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+#garden-app .g-cart-tools {
+  padding: 16px 18px 6px;
+}
+
+#garden-app .g-field {
+  display: block;
+  margin-bottom: 12px;
+}
+
+#garden-app .g-field > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--g-muted);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#garden-app .g-input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid var(--g-line);
+  border-radius: 10px;
+  background: var(--g-white);
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#garden-app textarea.g-input {
+  height: auto;
+  min-height: 84px;
+  padding: 10px 12px;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+#garden-app .g-input:focus {
+  border-color: var(--g-400);
+  box-shadow: 0 0 0 3px rgba(77, 154, 108, 0.14);
+}
+
+#garden-app .g-cart-note {
+  padding: 2px 18px 14px;
+  color: var(--g-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+#garden-app .g-cart-foot {
+  display: block;
+  padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+}
+
+#garden-app .g-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+#garden-app .g-total span {
+  color: var(--g-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+#garden-app .g-total strong {
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--g-ink);
+}
+
+#garden-app .g-cart-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 8px;
+}
+
+#garden-app .g-cart-actions .g-btn {
+  height: 44px;
+  border-radius: 12px;
+}
+
+/* ---------- toast ---------- */
+
+#garden-app .g-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  z-index: 500;
+  max-width: calc(100vw - 32px);
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--g-900);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(6, 20, 13, 0.3);
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#garden-app .g-toast.is-on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ---------- owner panel ---------- */
+
+#garden-app .g-owner {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  background: var(--g-cream);
+  animation: g-fade 0.2s ease both;
+}
+
+#garden-app .g-owner-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--g-line);
+  background: var(--g-white);
+}
+
+#garden-app .g-owner-head h2 {
+  font-family: var(--g-serif);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+#garden-app .g-owner-head .g-owner-sub {
+  display: block;
+  margin-top: 2px;
+  color: var(--g-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+#garden-app .g-owner-head .g-sheet-close {
+  position: static;
+  margin-left: auto;
+  background: var(--g-50);
+  box-shadow: none;
+}
+
+#garden-app .g-tabs {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 4px;
+  padding: 8px 12px;
+  overflow-x: auto;
+  background: var(--g-white);
+  border-bottom: 1px solid var(--g-line);
+  scrollbar-width: none;
+}
+
+#garden-app .g-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+#garden-app .g-tab {
+  flex: 0 0 auto;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--g-ink-soft);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#garden-app .g-tab.is-active {
+  background: var(--g-800);
+  color: #fff;
+}
+
+#garden-app .g-owner-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 14px 14px calc(30px + env(safe-area-inset-bottom, 0px));
+}
+
+#garden-app .g-owner-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#garden-app .g-owner-note {
+  margin: 0 0 14px;
+  padding: 11px 13px;
+  border-radius: 12px;
+  background: var(--g-100);
+  color: var(--g-700);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+#garden-app .g-owner-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#garden-app .g-owner-toolbar .g-input {
+  height: 38px;
+  background: var(--g-white);
+}
+
+#garden-app .g-owner-toolbar .g-btn {
+  height: 38px;
+  flex: 0 0 auto;
+}
+
+#garden-app .g-owner-list {
+  border: 1px solid var(--g-line);
+  border-radius: 14px;
+  background: var(--g-white);
+  overflow: hidden;
+}
+
+#garden-app .g-owner-cat-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: var(--g-50);
+  border-top: 1px solid var(--g-line);
+  border-bottom: 1px solid var(--g-line);
+  color: var(--g-ink-soft);
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+#garden-app .g-owner-cat-head:first-child {
+  border-top: 0;
+}
+
+#garden-app .g-owner-cat-head .g-owner-cat-count {
+  margin-left: auto;
+  color: var(--g-muted);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+#garden-app .g-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--g-line);
+}
+
+#garden-app .g-row:last-child {
+  border-bottom: 0;
+}
+
+#garden-app .g-row-thumb {
+  flex: 0 0 auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  overflow: hidden;
+  background: linear-gradient(150deg, #17452c 0%, #0d2c1c 100%);
+}
+
+#garden-app .g-row-thumb .g-mono {
+  font-size: 17px;
+}
+
+#garden-app .g-row-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#garden-app .g-row-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#garden-app .g-row-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+#garden-app .g-row-sub {
+  margin-top: 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--g-muted);
+  font-size: 10.5px;
+}
+
+#garden-app .g-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+}
+
+#garden-app .g-mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  color: var(--g-ink-soft);
+}
+
+#garden-app .g-mini svg {
+  width: 15px;
+  height: 15px;
+}
+
+#garden-app .g-mini:active {
+  background: var(--g-50);
+}
+
+#garden-app .g-mini.is-danger {
+  color: var(--g-red);
+}
+
+#garden-app .g-cat-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--g-line);
+}
+
+#garden-app .g-cat-row:last-child {
+  border-bottom: 0;
+}
+
+#garden-app .g-cat-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+}
+
+#garden-app .g-cat-input:focus {
+  border-color: var(--g-line);
+  background: var(--g-white);
+}
+
+#garden-app .g-add-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+#garden-app .g-add-row .g-input {
+  height: 38px;
+  background: var(--g-white);
+}
+
+/* owner form */
+
+#garden-app .g-form {
+  border: 1px solid var(--g-line);
+  border-radius: 14px;
+  background: var(--g-white);
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+#garden-app .g-form-title {
+  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--g-ink-soft);
+}
+
+#garden-app .g-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 10px;
+}
+
+#garden-app .g-form-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 10px;
+}
+
+#garden-app .g-hint {
+  margin: -4px 0 12px;
+  color: var(--g-muted);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+#garden-app .g-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--g-ink-soft);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#garden-app .g-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--g-600);
+}
+
+#garden-app .g-img-preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 130px;
+  margin-bottom: 10px;
+  border: 1px dashed var(--g-line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--g-50);
+  color: var(--g-muted);
+  font-size: 11px;
+}
+
+#garden-app .g-img-preview img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#garden-app .g-img-preview svg {
+  width: 22px;
+  height: 22px;
+}
+
+#garden-app .g-sub-row {
+  display: grid;
+  grid-template-columns: 1fr 82px 30px;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+#garden-app .g-sub-row.g-sub-row-3 {
+  grid-template-columns: 92px 1fr 70px 30px;
+}
+
+#garden-app .g-sub-row .g-input {
+  height: 34px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+#garden-app .g-sub-add {
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+#garden-app .g-savebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+#garden-app .g-savebar .g-btn {
+  height: 40px;
+}
+
+#garden-app .g-savebar .g-btn-primary {
+  flex: 1;
+}
+
+#garden-app .g-owner-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+#garden-app .g-owner-foot .g-btn {
+  height: 38px;
+  font-size: 12px;
+}
+
+#garden-app .g-status {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--g-white);
+  border: 1px solid var(--g-line);
+  margin-bottom: 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--g-ink-soft);
+}
+
+#garden-app .g-status-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--g-400);
+}
+
+#garden-app .g-status-dot.is-warn {
+  background: #d29a2e;
+}
+
+/* PIN */
+
+#garden-app .g-pin {
+  text-align: center;
+  padding: 26px 22px 24px;
+}
+
+#garden-app .g-pin-ico {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--g-100);
+  color: var(--g-700);
+}
+
+#garden-app .g-pin-ico svg {
+  width: 24px;
+  height: 24px;
+}
+
+#garden-app .g-pin h3 {
+  font-family: var(--g-serif);
+  font-size: 26px;
+  font-weight: 600;
+}
+
+#garden-app .g-pin p {
+  margin-top: 6px;
+  color: var(--g-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#garden-app .g-pin .g-input {
+  height: 48px;
+  margin-top: 16px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+}
+
+#garden-app .g-pin .g-btn {
+  width: 100%;
+  height: 44px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+#garden-app .g-pin-err {
+  margin-top: 8px;
+  color: var(--g-red);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+/* confirm */
+
+#garden-app .g-confirm {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 5;
+  width: min(340px, calc(100vw - 40px));
+  padding: 20px;
+  border-radius: 18px;
+  background: var(--g-white);
+  box-shadow: var(--g-shadow);
+  transform: translate(-50%, -50%);
+  animation: g-pop 0.2s ease both;
+}
+
+#garden-app .g-confirm h3 {
+  font-family: var(--g-serif);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+#garden-app .g-confirm p {
+  margin-top: 7px;
+  color: var(--g-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+#garden-app .g-confirm-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+#garden-app .g-confirm-actions .g-btn {
+  flex: 1;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+#garden-app .g-btn-danger {
+  background: var(--g-red);
+  border-color: var(--g-red);
+  color: #fff;
+}
+
+/* ---------- mobile owner rows ---------- */
+
+@media (max-width: 479px) {
+  #garden-app .g-row {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+
+  #garden-app .g-row-main {
+    padding-right: 4px;
+  }
+
+  #garden-app .g-row-actions {
+    flex: 1 0 100%;
+    justify-content: flex-end;
+    margin-top: -2px;
+  }
+}
+
+/* ---------- desktop ---------- */
+
+@media (min-width: 480px) {
+  #garden-app .g-grid {
+    gap: 12px 10px;
+  }
+
+  #garden-app .g-card-name {
+    font-size: 12.5px;
+  }
+
+  #garden-app .g-card-price {
+    font-size: 12.5px;
+  }
+}
+
+@media (min-width: 640px) {
+  #garden-app .g-topbar-in {
+    padding: 10px 20px;
+    gap: 16px;
+  }
+
+  #garden-app .g-searchfield {
+    display: flex;
+    flex: 1 1 auto;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #garden-app .g-actions {
+    margin-left: 0;
+  }
+
+  #garden-app .g-search-open {
+    display: none;
+  }
+
+  #garden-app .g-hero {
+    margin: 16px auto 0;
+    max-width: 1296px;
+    padding: 44px 40px 36px;
+    border-radius: 26px;
+  }
+
+  #garden-app .g-title {
+    font-size: 72px;
+  }
+
+  #garden-app .g-hero-leaf {
+    right: -10px;
+    top: -50px;
+    width: 300px;
+    height: 300px;
+  }
+
+  #garden-app .g-chips-wrap {
+    top: 60px;
+  }
+
+  #garden-app .g-chips {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #garden-app .g-menu {
+    padding: 10px 20px 56px;
+  }
+
+  #garden-app .g-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px 14px;
+  }
+
+  #garden-app .g-sec-title {
+    font-size: 30px;
+  }
+
+  #garden-app .g-sec {
+    padding-top: 28px;
+  }
+
+  #garden-app .g-card-media,
+  #garden-app .g-card {
+    border-radius: 16px;
+  }
+
+  #garden-app .g-card-name {
+    margin-top: 9px;
+    font-size: 13.5px;
+  }
+
+  #garden-app .g-card-price {
+    font-size: 13.5px;
+  }
+
+  #garden-app .g-sheet {
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    top: 50%;
+    width: min(540px, calc(100vw - 48px));
+    max-height: min(88vh, 860px);
+    border-radius: 22px;
+    animation: g-pop 0.22s ease both;
+  }
+
+  #garden-app .g-sheet-grab {
+    display: none;
+  }
+
+  #garden-app .g-dish-media {
+    aspect-ratio: 16 / 8;
+  }
+
+  #garden-app .g-footer {
+    padding: 34px 24px 120px;
+  }
+
+  #garden-app .g-cartbar {
+    left: 50%;
+    right: auto;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    width: 480px;
+    transform: translate(-50%, 140%);
+  }
+
+  #garden-app .g-cartbar.is-on {
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (min-width: 900px) {
+  #garden-app .g-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px 16px;
+  }
+
+  #garden-app .g-menu {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1240px) {
+  #garden-app .g-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 22px 18px;
+  }
+}
+
+/* ---------- animations ---------- */
+
+@keyframes g-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes g-up {
+  from { transform: translateY(40px); opacity: 0.6; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes g-pop {
+  from { opacity: 0; transform: translate(-50%, -47%) scale(0.97); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #garden-app *,
+  #garden-app *::before,
+  #garden-app *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* lock page scroll while a sheet is open */
+html.garden-lock,
+html.garden-lock body {
+  overflow: hidden !important;
+}
+
+
+</style>
+<div id="garden-app" class="garden"></div>
+<script>
+/* ==========================================================
+   GARDEN — данные меню
+   Это единственный файл, где лежит содержимое меню.
+   Но менять его руками не обязательно: на сайте есть
+   режим владельца (ссылка «Для владельца» внизу страницы).
+   ========================================================== */
+
+(function () {
+  "use strict";
+
+  var COFFEE_ADDONS = [
+    { group: "Добавки", label: "Дополнительный эспрессо", price: 70 },
+    { group: "Добавки", label: "Молоко", price: 50 },
+    { group: "Добавки", label: "Сливки", price: 50 },
+    { group: "Добавки", label: "Миндальное молоко", price: 80 },
+    { group: "Сиропы", label: "Ваниль", price: 60 },
+    { group: "Сиропы", label: "Карамель", price: 60 },
+    { group: "Сиропы", label: "Лесной орех", price: 60 },
+    { group: "Сиропы", label: "Кокос", price: 60 },
+    { group: "Сиропы", label: "Лаванда", price: 60 }
+  ];
+
+  var SHAKE_ADDONS = [
+    { group: "Добавки", label: "Шарик мороженого", price: 80 },
+    { group: "Добавки", label: "Взбитые сливки", price: 50 },
+    { group: "Добавки", label: "Орехи", price: 40 },
+    { group: "Сиропы", label: "Ваниль", price: 60 },
+    { group: "Сиропы", label: "Шоколад", price: 60 },
+    { group: "Сиропы", label: "Карамель", price: 60 }
+  ];
+
+  var LEMONADE_ADDONS = [
+    { group: "Добавки", label: "Дополнительный сироп", price: 60 },
+    { group: "Добавки", label: "Мята", price: 20 },
+    { group: "Добавки", label: "Лайм", price: 20 },
+    { group: "Добавки", label: "Клубника", price: 50 }
+  ];
+
+  var TEA_ADDONS = [
+    { group: "Добавки к чаю", label: "Чабрец", price: 30 },
+    { group: "Добавки к чаю", label: "Лимон", price: 30 },
+    { group: "Добавки к чаю", label: "Бадьян", price: 30 },
+    { group: "Добавки к чаю", label: "Корица", price: 30 },
+    { group: "Добавки к чаю", label: "Имбирь", price: 30 },
+    { group: "Добавки к чаю", label: "Гвоздика", price: 30 }
+  ];
+
+  var ROLL_ADDONS = [
+    { group: "К роллам", label: "Соевый соус", price: 30 },
+    { group: "К роллам", label: "Васаби", price: 20 },
+    { group: "К роллам", label: "Имбирь", price: 30 },
+    { group: "К роллам", label: "Палочки", price: 0 }
+  ];
+
+  var COFFEE_SIZES = [
+    { label: "250 мл", extra: 0 },
+    { label: "400 мл", extra: 50 },
+    { label: "500 мл", extra: 90 }
+  ];
+
+  var TEA_SIZES = [
+    { label: "400 мл", extra: 0 },
+    { label: "чайник 700 мл", extra: 140 }
+  ];
+
+  window.GARDEN_DATA = {
+    updatedAt: 1793404800000,
+
+    brand: {
+      name: "Garden",
+      tagline: "кофе · кухня · бар",
+      subtitle: "электронное меню",
+      hours: "10:00 — 23:00",
+      address: "",
+      phone: "",
+      whatsapp: "",
+      currency: "₽",
+      pin: "1234",
+      note: "Покажите собранный заказ официанту — он всё принесёт.",
+      instagram: ""
+    },
+
+    categories: [
+      { id: "coffee", name: "Кофе" },
+      { id: "cocktails", name: "Коктейли" },
+      { id: "lemonades", name: "Лимонады" },
+      { id: "icecream", name: "Мороженое" },
+      { id: "fresh", name: "Фреши" },
+      { id: "breakfast", name: "Завтраки до 14:00" },
+      { id: "tea", name: "Чай" },
+      { id: "tea-addons", name: "Добавки к чаю" },
+      { id: "author-tea", name: "Авторский чай" },
+      { id: "to-tea", name: "К чаю" },
+      { id: "burgers", name: "Бургеры" },
+      { id: "hot", name: "Горячие блюда" },
+      { id: "rolls", name: "Роллы" },
+      { id: "pizza", name: "Пицца" },
+      { id: "pp", name: "ПП блюда" },
+      { id: "soups", name: "Супы" },
+      { id: "unnamed", name: "Без названия" },
+      { id: "garnishes", name: "Гарниры" },
+      { id: "salads", name: "Салаты" },
+      { id: "shawarma", name: "Шаурма" },
+      { id: "sauces", name: "Соусы" },
+      { id: "desserts", name: "Десерты" }
+    ],
+
+    dishes: [
+      /* ---------------- КОФЕ ---------------- */
+      {
+        id: "garden-double", cat: "coffee", name: "GARDEN двойка", price: 280,
+        desc: "Двойной эспрессо: плотное тело, шоколадная крема и карамельная нотка.",
+        badge: "хит"
+      },
+      {
+        id: "espresso", cat: "coffee", name: "Эспрессо", price: 150,
+        desc: "Классический эспрессо из свежеобжаренной смеси. Плотно, ярко, с горчинкой.",
+        sizes: [{ label: "40 мл", extra: 0 }, { label: "60 мл", extra: 30 }],
+        addons: COFFEE_ADDONS
+      },
+      {
+        id: "americano", cat: "coffee", name: "Американо", price: 180,
+        desc: "Эспрессо с горячей водой — чистый вкус кофе без молока.",
+        sizes: [{ label: "250 мл", extra: 0 }, { label: "400 мл", extra: 40 }],
+        addons: COFFEE_ADDONS
+      },
+      {
+        id: "cappuccino", cat: "coffee", name: "Капучино", price: 220,
+        desc: "Эспрессо и бархатная молочная пена в идеальном балансе.",
+        sizes: COFFEE_SIZES, addons: COFFEE_ADDONS, badge: "хит"
+      },
+      {
+        id: "flat-white", cat: "coffee", name: "Флэт уайт", price: 240,
+        desc: "Двойной эспрессо с тонким слоем молока. Крепче и плотнее латте.",
+        sizes: [{ label: "250 мл", extra: 0 }, { label: "350 мл", extra: 40 }],
+        addons: COFFEE_ADDONS
+      },
+      {
+        id: "latte", cat: "coffee", name: "Латте", price: 240,
+        desc: "Мягкий кофе с молоком и лёгкой сладостью.",
+        sizes: [{ label: "300 мл", extra: 0 }, { label: "400 мл", extra: 40 }, { label: "500 мл", extra: 80 }],
+        addons: COFFEE_ADDONS
+      },
+      {
+        id: "raf", cat: "coffee", name: "Раф", price: 260,
+        desc: "Сливки, эспрессо и ванильный сахар, взбитые в воздушную пену.",
+        sizes: [{ label: "250 мл", extra: 0 }, { label: "350 мл", extra: 40 }],
+        addons: COFFEE_ADDONS
+      },
+      {
+        id: "raf-urbech", cat: "coffee", name: "Раф с урбечем", price: 290,
+        desc: "Раф на сливках с абрикосовым урбечем — ореховый, бархатный вкус.",
+        sizes: [{ label: "250 мл", extra: 0 }, { label: "350 мл", extra: 40 }],
+        addons: COFFEE_ADDONS
+      },
+      {
+        id: "ice-latte", cat: "coffee", name: "Айс латте", price: 260,
+        desc: "Холодный латте со льдом: бодрит в жару.",
+        sizes: [{ label: "300 мл", extra: 0 }, { label: "400 мл", extra: 40 }],
+        addons: COFFEE_ADDONS
+      },
+      {
+        id: "ice-skim-latte", cat: "coffee", name: "Айс ским латте", price: 270,
+        desc: "Латте на обезжиренном молоке со льдом — лёгкий и свежий.",
+        sizes: [{ label: "300 мл", extra: 0 }, { label: "400 мл", extra: 40 }],
+        addons: COFFEE_ADDONS
+      },
+      {
+        id: "ice-frappe-urbech", cat: "coffee", name: "Айс фраппе с урбечем", price: 340,
+        desc: "Взбитый холодный кофе с урбечем и льдом.",
+        sizes: [{ label: "400 мл", extra: 0 }],
+        addons: COFFEE_ADDONS, badge: "новинка"
+      },
+      {
+        id: "turka-big", cat: "coffee", name: "Турка большая", price: 290,
+        desc: "Кофе, сваренный в турке. Крепкий, с густой пенкой.",
+        sizes: [{ label: "300 мл", extra: 0 }]
+      },
+      {
+        id: "turka-small", cat: "coffee", name: "Турка маленькая", price: 230,
+        desc: "Маленькая турка — концентрированный вкус и аромат.",
+        sizes: [{ label: "150 мл", extra: 0 }]
+      },
+      {
+        id: "filter-coffee", cat: "coffee", name: "Фильтр кофе", price: 220,
+        desc: "Альтернатива: чистый, фруктовый вкус без молока.",
+        sizes: [{ label: "250 мл", extra: 0 }, { label: "400 мл", extra: 50 }]
+      },
+      {
+        id: "bumble-coffee", cat: "coffee", name: "Бамбл кофе", price: 320,
+        desc: "Эспрессо, апельсиновый сок и карамельный сироп — цитрусовый микс.",
+        sizes: [{ label: "300 мл", extra: 0 }],
+        addons: COFFEE_ADDONS, badge: "новинка"
+      },
+
+      /* ---------------- КОКТЕЙЛИ ---------------- */
+      {
+        id: "shake-milk", cat: "cocktails", name: "Молочный", price: 280,
+        desc: "Классический молочный коктейль на мороженом.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 60 }],
+        addons: SHAKE_ADDONS
+      },
+      {
+        id: "shake-banana", cat: "cocktails", name: "Банановый", price: 320,
+        desc: "Молоко, банан и мороженое — густой и сладкий.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 60 }],
+        addons: SHAKE_ADDONS
+      },
+      {
+        id: "shake-strawberry", cat: "cocktails", name: "Клубничный", price: 320,
+        desc: "Клубника, молоко и сливочное мороженое.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 60 }],
+        addons: SHAKE_ADDONS
+      },
+      {
+        id: "shake-chocolate", cat: "cocktails", name: "Шоколадный", price: 330,
+        desc: "Шоколадное мороженое, молоко и какао.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 60 }],
+        addons: SHAKE_ADDONS
+      },
+      {
+        id: "shake-africa", cat: "cocktails", name: "Африка", price: 350,
+        desc: "Коктейль с шоколадом и орехами — тёплый африканский характер.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 60 }],
+        addons: SHAKE_ADDONS
+      },
+      {
+        id: "shake-snickers", cat: "cocktails", name: "Сникерс", price: 360,
+        desc: "Шоколад, карамель и арахис в одном стакане.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 60 }],
+        addons: SHAKE_ADDONS, badge: "хит"
+      },
+      {
+        id: "shake-bounty", cat: "cocktails", name: "Баунти", price: 360,
+        desc: "Кокос, шоколад и сливки — как любимый батончик.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 60 }],
+        addons: SHAKE_ADDONS
+      },
+      {
+        id: "shake-strawberry-banana", cat: "cocktails", name: "Клубнично-банановый", price: 340,
+        desc: "Два вкуса в одном: клубника и банан.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 60 }],
+        addons: SHAKE_ADDONS
+      },
+
+      /* ---------------- ЛИМОНАДЫ ---------------- */
+      {
+        id: "lemon-blue-lagoon", cat: "lemonades", name: "Голубая лагуна", price: 280,
+        desc: "Голубой лимонад с цитрусом и льдом.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 50 }],
+        addons: LEMONADE_ADDONS
+      },
+      {
+        id: "lemon-mojito", cat: "lemonades", name: "Мохито классический", price: 290,
+        desc: "Лайм, мята, лёд и газировка.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 50 }],
+        addons: LEMONADE_ADDONS, badge: "хит"
+      },
+      {
+        id: "lemon-mojito-strawberry", cat: "lemonades", name: "Мохито клубника", price: 310,
+        desc: "Классический мохито с клубничным пюре.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 50 }],
+        addons: LEMONADE_ADDONS
+      },
+      {
+        id: "lemon-mojito-berry", cat: "lemonades", name: "Мохито ягодный", price: 310,
+        desc: "Мята и микс ягод — освежающе.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 50 }],
+        addons: LEMONADE_ADDONS
+      },
+      {
+        id: "lemon-tropic", cat: "lemonades", name: "Тропик", price: 300,
+        desc: "Манго, ананас и апельсин.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 50 }],
+        addons: LEMONADE_ADDONS
+      },
+      {
+        id: "lemon-pineapple-citrus", cat: "lemonades", name: "Ананас цитрус", price: 300,
+        desc: "Ананас с лаймом и апельсином.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 50 }],
+        addons: LEMONADE_ADDONS
+      },
+      {
+        id: "lemon-mango-passion", cat: "lemonades", name: "Манго маракуйя", price: 320,
+        desc: "Сладкое манго и кислинка маракуйи.",
+        sizes: [{ label: "400 мл", extra: 0 }, { label: "500 мл", extra: 50 }],
+        addons: LEMONADE_ADDONS
+      },
+
+      /* ---------------- МОРОЖЕНОЕ ---------------- */
+      {
+        id: "ice-cream-vanilla", cat: "icecream", name: "Сливочное", price: 120,
+        desc: "Классическое сливочное мороженое.",
+        sizes: [{ label: "1 шарик", extra: 0 }, { label: "2 шарика", extra: 100 }],
+        addons: [
+          { group: "Топпинги", label: "Шоколадный", price: 40 },
+          { group: "Топпинги", label: "Клубничный", price: 40 },
+          { group: "Топпинги", label: "Карамельный", price: 40 },
+          { group: "Добавки", label: "Орехи", price: 40 },
+          { group: "Добавки", label: "Вафельный рожок", price: 30 }
+        ]
+      },
+      {
+        id: "ice-cream-strawberry", cat: "icecream", name: "Клубничное", price: 130,
+        desc: "Сливочное мороженое с кусочками клубники.",
+        sizes: [{ label: "1 шарик", extra: 0 }, { label: "2 шарика", extra: 100 }],
+        addons: [
+          { group: "Топпинги", label: "Шоколадный", price: 40 },
+          { group: "Топпинги", label: "Клубничный", price: 40 },
+          { group: "Топпинги", label: "Карамельный", price: 40 },
+          { group: "Добавки", label: "Орехи", price: 40 },
+          { group: "Добавки", label: "Вафельный рожок", price: 30 }
+        ]
+      },
+      {
+        id: "ice-cream-chocolate", cat: "icecream", name: "Шоколадное", price: 130,
+        desc: "Насыщенное шоколадное мороженое.",
+        sizes: [{ label: "1 шарик", extra: 0 }, { label: "2 шарика", extra: 100 }],
+        addons: [
+          { group: "Топпинги", label: "Шоколадный", price: 40 },
+          { group: "Топпинги", label: "Клубничный", price: 40 },
+          { group: "Топпинги", label: "Карамельный", price: 40 },
+          { group: "Добавки", label: "Орехи", price: 40 },
+          { group: "Добавки", label: "Вафельный рожок", price: 30 }
+        ]
+      },
+
+      /* ---------------- ФРЕШИ ---------------- */
+      {
+        id: "fresh-orange", cat: "fresh", name: "Апельсиновый", price: 280,
+        desc: "Свежевыжатый апельсиновый сок.",
+        sizes: [{ label: "300 мл", extra: 0 }, { label: "400 мл", extra: 70 }]
+      },
+      {
+        id: "fresh-lemon", cat: "fresh", name: "Лимонный", price: 260,
+        desc: "Освежающий лимонный фреш.",
+        sizes: [{ label: "300 мл", extra: 0 }, { label: "400 мл", extra: 70 }]
+      },
+      {
+        id: "fresh-pomegranate", cat: "fresh", name: "Гранатовый", price: 320,
+        desc: "Терпкий гранатовый сок.",
+        sizes: [{ label: "300 мл", extra: 0 }, { label: "400 мл", extra: 70 }]
+      },
+      {
+        id: "fresh-apple", cat: "fresh", name: "Яблочный", price: 260,
+        desc: "Светлый яблочный фреш.",
+        sizes: [{ label: "300 мл", extra: 0 }, { label: "400 мл", extra: 70 }]
+      },
+      {
+        id: "fresh-carrot", cat: "fresh", name: "Морковный", price: 250,
+        desc: "Морковный сок с мягкой сладостью.",
+        sizes: [{ label: "300 мл", extra: 0 }, { label: "400 мл", extra: 70 }]
+      },
+
+      /* ---------------- ЗАВТРАКИ ---------------- */
+      {
+        id: "breakfast-dagestan", cat: "breakfast", name: "Дагестанский", price: 390,
+        desc: "Сытный завтрак с яйцом, домашним сыром, зеленью и лепёшкой.",
+        addons: [
+          { group: "Добавки", label: "Сметана", price: 50 },
+          { group: "Добавки", label: "Домашнее варенье", price: 60 },
+          { group: "Добавки", label: "Лепёшка", price: 40 }
+        ]
+      },
+      {
+        id: "breakfast-hunter", cat: "breakfast", name: "Охотничий", price: 450,
+        desc: "Яичница с охотничьими колбасками, картофелем и томатами.",
+        addons: [
+          { group: "Добавки", label: "Сметана", price: 50 },
+          { group: "Добавки", label: "Домашнее варенье", price: 60 },
+          { group: "Добавки", label: "Лепёшка", price: 40 }
+        ]
+      },
+      {
+        id: "breakfast-syrniki", cat: "breakfast", name: "Сырники", price: 320,
+        desc: "Сырники из домашнего творога со сметаной и вареньем.",
+        addons: [
+          { group: "Добавки", label: "Сметана", price: 50 },
+          { group: "Добавки", label: "Домашнее варенье", price: 60 },
+          { group: "Добавки", label: "Лепёшка", price: 40 }
+        ]
+      },
+
+      /* ---------------- ЧАЙ ---------------- */
+      {
+        id: "tea-black", cat: "tea", name: "Чёрный чай", price: 150,
+        desc: "Крепкий чёрный чай в чайнике.",
+        sizes: TEA_SIZES, addons: TEA_ADDONS
+      },
+      {
+        id: "tea-green", cat: "tea", name: "Зелёный чай", price: 150,
+        desc: "Зелёный чай с мягким травяным вкусом.",
+        sizes: TEA_SIZES, addons: TEA_ADDONS
+      },
+
+      /* ---------------- ДОБАВКИ К ЧАЮ ---------------- */
+      {
+        id: "tea-add-thyme", cat: "tea-addons", name: "Чабрец", price: 40,
+        desc: "Щепотка чабреца для аромата."
+      },
+      {
+        id: "tea-add-lemon", cat: "tea-addons", name: "Лимон", price: 30,
+        desc: "Ломтик свежего лимона."
+      },
+      {
+        id: "tea-add-anise", cat: "tea-addons", name: "Бадьян", price: 40,
+        desc: "Звёздочка бадьяна."
+      },
+      {
+        id: "tea-add-cinnamon", cat: "tea-addons", name: "Корица", price: 30,
+        desc: "Палочка корицы."
+      },
+      {
+        id: "tea-add-ginger", cat: "tea-addons", name: "Имбирь", price: 40,
+        desc: "Свежий имбирь."
+      },
+      {
+        id: "tea-add-clove", cat: "tea-addons", name: "Гвоздика", price: 30,
+        desc: "Гвоздика для пряного чая."
+      },
+
+      /* ---------------- АВТОРСКИЙ ЧАЙ ---------------- */
+      {
+        id: "author-sea-buckthorn", cat: "author-tea", name: "Облепиховый", price: 290,
+        desc: "Облепиха, апельсин и мёд.",
+        sizes: TEA_SIZES, addons: TEA_ADDONS
+      },
+      {
+        id: "author-ginger-honey", cat: "author-tea", name: "Имбирно-медовый", price: 290,
+        desc: "Имбирь, мёд и лимон — согревает.",
+        sizes: TEA_SIZES, addons: TEA_ADDONS
+      },
+      {
+        id: "author-berry", cat: "author-tea", name: "Ягодный", price: 320,
+        desc: "Микс ягод и трав.",
+        sizes: TEA_SIZES, addons: TEA_ADDONS
+      },
+      {
+        id: "author-moroccan", cat: "author-tea", name: "Марокканский чай", price: 290,
+        desc: "Зелёный чай с мятой.",
+        sizes: TEA_SIZES, addons: TEA_ADDONS
+      },
+
+      /* ---------------- К ЧАЮ ---------------- */
+      {
+        id: "to-tea-honey", cat: "to-tea", name: "Мёд", price: 60,
+        desc: "Натуральный мёд."
+      },
+      {
+        id: "to-tea-jam", cat: "to-tea", name: "Варенье в ассортименте", price: 90,
+        desc: "Домашнее варенье на выбор."
+      },
+      {
+        id: "to-tea-nuts-honey", cat: "to-tea", name: "Орехи с мёдом", price: 180,
+        desc: "Орехи в медовой глазури."
+      },
+      {
+        id: "to-tea-nuts", cat: "to-tea", name: "Орехи", price: 150,
+        desc: "Ассорти орехов."
+      },
+      {
+        id: "to-tea-lemon", cat: "to-tea", name: "Лимонная нарезка", price: 40,
+        desc: "Свежий лимон ломтиками."
+      },
+
+      /* ---------------- БУРГЕРЫ ---------------- */
+      {
+        id: "burger-beef", cat: "burgers", name: "С говяжьей котлетой", price: 420,
+        desc: "Сочная говяжья котлета, овощи и фирменный соус в бриоши.",
+        addons: [
+          { group: "Добавки", label: "Сыр", price: 60 },
+          { group: "Добавки", label: "Бекон", price: 80 },
+          { group: "Добавки", label: "Соус", price: 40 },
+          { group: "Добавки", label: "Халапеньо", price: 40 },
+          { group: "К бургеру", label: "Картофель фри", price: 150 }
+        ]
+      },
+      {
+        id: "burger-chicken", cat: "burgers", name: "С куриной грудкой", price: 390,
+        desc: "Куриная грудка на гриле, свежие овощи и соус.",
+        addons: [
+          { group: "Добавки", label: "Сыр", price: 60 },
+          { group: "Добавки", label: "Бекон", price: 80 },
+          { group: "Добавки", label: "Соус", price: 40 },
+          { group: "Добавки", label: "Халапеньо", price: 40 },
+          { group: "К бургеру", label: "Картофель фри", price: 150 }
+        ]
+      },
+
+      /* ---------------- ГОРЯЧИЕ БЛЮДА ---------------- */
+      {
+        id: "hot-hunter-lamb", cat: "hot", name: "Ужин охотника (баранина)", price: 690,
+        desc: "Баранина на гриле с овощами и домашним лавашом."
+      },
+      {
+        id: "hot-hunter-chicken", cat: "hot", name: "Ужин охотника (с куриным шашлыком)", price: 590,
+        desc: "Куриный шашлык с овощами и лавашом."
+      },
+      {
+        id: "hot-hunter-beef", cat: "hot", name: "Ужин охотника (с говядиной)", price: 650,
+        desc: "Говядина на гриле с овощами и лавашом."
+      },
+      {
+        id: "hot-kyrze-butter", cat: "hot", name: "Кырзе с маслом", price: 380,
+        desc: "Дагестанские кырзе с топлёным маслом."
+      },
+      {
+        id: "hot-kyrze-cottage", cat: "hot", name: "Кырзе с творогом", price: 390,
+        desc: "Кырзе с домашним творогом и зеленью."
+      },
+      {
+        id: "hot-manty", cat: "hot", name: "Манты", price: 420,
+        desc: "Сочные манты с мясом и луком."
+      },
+      {
+        id: "hot-hinkal", cat: "hot", name: "Слоёный хинкал", price: 390,
+        desc: "Слоёное тесто с мясным бульоном."
+      },
+      {
+        id: "hot-hinkal-dried-meat", cat: "hot", name: "Слоёный хинкал с сушёным мясом", price: 450,
+        desc: "Слоёный хинкал с сушёным мясом и бульоном."
+      },
+
+      /* ---------------- РОЛЛЫ ---------------- */
+      {
+        id: "roll-caesar-chicken", cat: "rolls", name: "Цезарь с курицей", price: 390,
+        desc: "Курица, романо, пармезан и соус цезарь.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-caesar-shrimp", cat: "rolls", name: "Цезарь с креветками", price: 450,
+        desc: "Креветки, романо и пармезан.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-california-shrimp", cat: "rolls", name: "Калифорния с креветками", price: 430,
+        desc: "Креветка, авокадо, огурец и икра.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-california-salmon", cat: "rolls", name: "Калифорния с лососем", price: 470,
+        desc: "Лосось, авокадо и огурец в икре.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-philadelphia", cat: "rolls", name: "Филадельфия", price: 490,
+        desc: "Лосось, сливочный сыр и огурец.",
+        addons: ROLL_ADDONS, badge: "хит"
+      },
+      {
+        id: "roll-osi-batter", cat: "rolls", name: "Оси в кляре", price: 350,
+        desc: "Угорь в хрустящем кляре.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-osi-crab", cat: "rolls", name: "Оси в крабе", price: 430,
+        desc: "Угорь и краб под соусом.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-green-salmon", cat: "rolls", name: "Зелёный лосось", price: 460,
+        desc: "Лосось, авокадо и зелень.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-green-caesar", cat: "rolls", name: "Зелёный Цезарь", price: 420,
+        desc: "Курица, зелень и пармезан.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-dynamite", cat: "rolls", name: "Динамит", price: 440,
+        desc: "Креветка, спайси-соус и икра.",
+        addons: ROLL_ADDONS
+      },
+      {
+        id: "roll-yaposha", cat: "rolls", name: "Япоша", price: 480,
+        desc: "Лосось, угорь и сливочный сыр.",
+        addons: ROLL_ADDONS
+      },
+
+      /* ---------------- ПИЦЦА ---------------- */
+      {
+        id: "pizza-chicken", cat: "pizza", name: "Куриная", price: 590,
+        desc: "Курица, сыр и соус на тонком тесте.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-assorted", cat: "pizza", name: "Ассорти", price: 690,
+        desc: "Несколько видов мяса и колбас.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-pepperoni", cat: "pizza", name: "Пепперони", price: 650,
+        desc: "Пепперони и моцарелла.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-hunter", cat: "pizza", name: "Охотничья", price: 690,
+        desc: "Колбаски, мясо и охотничьи специи.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-caesar", cat: "pizza", name: "Цезарь", price: 640,
+        desc: "Курица, романо и пармезан.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-four-cheese", cat: "pizza", name: "4 сыра", price: 690,
+        desc: "Моцарелла, пармезан, дорблю и чеддер.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-julienne", cat: "pizza", name: "Жульен", price: 690,
+        desc: "Курица, шампиньоны и сливочный соус.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-margherita", cat: "pizza", name: "Маргарита", price: 550,
+        desc: "Томаты, моцарелла и базилик.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-sicilian", cat: "pizza", name: "Сицилийская", price: 690,
+        desc: "Пикантная колбаса, перец и оливки.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ]
+      },
+      {
+        id: "pizza-pachan", cat: "pizza", name: "Пачанская", price: 720,
+        desc: "Фирменная пицца с мясом и острым соусом.",
+        sizes: [{ label: "30 см", extra: 0 }, { label: "40 см", extra: 250 }],
+        addons: [
+          { group: "Добавки", label: "Сырный борт", price: 150 },
+          { group: "Добавки", label: "Дополнительный сыр", price: 100 }
+        ],
+        badge: "хит"
+      },
+
+      /* ---------------- ПП БЛЮДА ---------------- */
+      {
+        id: "pp-tbone", cat: "pp", name: "Ти-Бон", price: 1890,
+        desc: "Стейк ти-бон на гриле с гарниром.",
+        addons: [
+          { group: "Добавки", label: "Гарнир на выбор", price: 190 },
+          { group: "Добавки", label: "Соус", price: 60 }
+        ]
+      },
+      {
+        id: "pp-tomahawk", cat: "pp", name: "Томагавк", price: 2490,
+        desc: "Большой стейк на кости с гарниром.",
+        addons: [
+          { group: "Добавки", label: "Гарнир на выбор", price: 190 },
+          { group: "Добавки", label: "Соус", price: 60 }
+        ],
+        badge: "премиум"
+      },
+      {
+        id: "pp-entrecote", cat: "pp", name: "Антрекот", price: 1290,
+        desc: "Стейк из толстого края с гарниром.",
+        addons: [
+          { group: "Добавки", label: "Гарнир на выбор", price: 190 },
+          { group: "Добавки", label: "Соус", price: 60 }
+        ]
+      },
+      {
+        id: "pp-chicken", cat: "pp", name: "Куриный", price: 690,
+        desc: "Куриное филе на гриле с овощами.",
+        addons: [
+          { group: "Добавки", label: "Гарнир на выбор", price: 190 },
+          { group: "Добавки", label: "Соус", price: 60 }
+        ]
+      },
+      {
+        id: "pp-salmon", cat: "pp", name: "Сёмга", price: 1190,
+        desc: "Стейк сёмги с гарниром.",
+        addons: [
+          { group: "Добавки", label: "Гарнир на выбор", price: 190 },
+          { group: "Добавки", label: "Соус", price: 60 }
+        ]
+      },
+      {
+        id: "pp-bowl", cat: "pp", name: "Боул с курицей", price: 490,
+        desc: "Курица, крупы и свежие овощи в боуле.",
+        addons: [
+          { group: "Добавки", label: "Авокадо", price: 90 },
+          { group: "Добавки", label: "Соус", price: 60 }
+        ]
+      },
+
+      /* ---------------- СУПЫ ---------------- */
+      {
+        id: "soup-lentil", cat: "soups", name: "Чечевичный", price: 320,
+        desc: "Густой чечевичный суп с восточными специями.",
+        addons: [
+          { group: "Добавки", label: "Хлеб", price: 40 },
+          { group: "Добавки", label: "Сметана", price: 50 }
+        ]
+      },
+      {
+        id: "soup-lagman", cat: "soups", name: "Лагман", price: 390,
+        desc: "Домашняя лапша, мясо и овощи в наваристом бульоне.",
+        addons: [
+          { group: "Добавки", label: "Хлеб", price: 40 },
+          { group: "Добавки", label: "Сметана", price: 50 }
+        ]
+      },
+
+      /* ---------------- ГАРНИРЫ ---------------- */
+      {
+        id: "garnish-fries", cat: "garnishes", name: "Картошка фри", price: 190,
+        desc: "Хрустящая картошка фри.",
+        addons: [{ group: "Добавки", label: "Соус", price: 40 }]
+      },
+      {
+        id: "garnish-rustic", cat: "garnishes", name: "Картошка по-деревенски", price: 190,
+        desc: "Картофель с пряностями, запечённый до корочки.",
+        addons: [{ group: "Добавки", label: "Соус", price: 40 }]
+      },
+
+      /* ---------------- САЛАТЫ ---------------- */
+      {
+        id: "salad-caesar-chicken", cat: "salads", name: "Цезарь с курицей", price: 390,
+        desc: "Курица, романо, пармезан и сухарики."
+      },
+      {
+        id: "salad-caesar-shrimp", cat: "salads", name: "Цезарь с креветками", price: 450,
+        desc: "Креветки, романо и пармезан."
+      },
+      {
+        id: "salad-home", cat: "salads", name: "Салат по-домашнему", price: 320,
+        desc: "Овощи, зелень и домашняя заправка."
+      },
+      {
+        id: "salad-vegetables", cat: "salads", name: "Овощная нарезка", price: 290,
+        desc: "Свежие овощи и зелень."
+      },
+      {
+        id: "salad-greek", cat: "salads", name: "Греческий", price: 340,
+        desc: "Фета, томаты, огурцы и оливки."
+      },
+      {
+        id: "salad-funchose", cat: "salads", name: "Фунчоза", price: 350,
+        desc: "Стеклянная лапша с овощами и соусом."
+      },
+      {
+        id: "salad-eggplant", cat: "salads", name: "Салат с хрустящими баклажанами", price: 380,
+        desc: "Баклажаны в хрустящей корочке с томатами.",
+        badge: "хит"
+      },
+
+      /* ---------------- ШАУРМА ---------------- */
+      {
+        id: "shawarma-classic", cat: "shawarma", name: "Шаурма классическая", price: 290,
+        desc: "Курица, овощи и соус в лаваше."
+      },
+      {
+        id: "shawarma-batter", cat: "shawarma", name: "Шаурма в кляре", price: 320,
+        desc: "Шаурма в хрустящем кляре."
+      },
+      {
+        id: "shawarma-hot", cat: "shawarma", name: "Шаурма горячая", price: 310,
+        desc: "Горячая шаурма с острым соусом."
+      },
+      {
+        id: "shawarma-chicken", cat: "shawarma", name: "Шаурма куриная", price: 300,
+        desc: "Куриное филе, овощи и фирменный соус."
+      },
+      {
+        id: "shawarma-kebab", cat: "shawarma", name: "Шаурма с куриным шашлычком", price: 340,
+        desc: "Шашлык из курицы в лаваше с овощами."
+      },
+      {
+        id: "shawarma-tandoor", cat: "shawarma", name: "Шаурма в тандыре", price: 330,
+        desc: "Лаваш из тандыра с сочной начинкой."
+      },
+
+      /* ---------------- СОУСЫ ---------------- */
+      {
+        id: "sauce-ketchup", cat: "sauces", name: "Кетчуп", price: 50,
+        desc: "Классический томатный кетчуп."
+      },
+      {
+        id: "sauce-cheese", cat: "sauces", name: "Сырный", price: 60,
+        desc: "Сливочно-сырный соус."
+      },
+      {
+        id: "sauce-peach", cat: "sauces", name: "Персиковый", price: 60,
+        desc: "Сладкий персиковый соус."
+      },
+      {
+        id: "sauce-soy", cat: "sauces", name: "Соевый", price: 50,
+        desc: "Классический соевый соус."
+      },
+      {
+        id: "sauce-chili", cat: "sauces", name: "Сладкий чили", price: 60,
+        desc: "Сладкий соус с лёгкой остринкой."
+      },
+      {
+        id: "sauce-white", cat: "sauces", name: "Белый", price: 60,
+        desc: "Нежный белый соус."
+      },
+
+      /* ---------------- ДЕСЕРТЫ ---------------- */
+      {
+        id: "dessert-fondant", cat: "desserts", name: "Фондан", price: 390,
+        desc: "Тёплый шоколадный фондан с жидким центром.",
+        addons: [
+          { group: "Добавки", label: "Шарик мороженого", price: 80 },
+          { group: "Добавки", label: "Топпинг", price: 40 }
+        ],
+        badge: "хит"
+      },
+      {
+        id: "dessert-waffles", cat: "desserts", name: "Венские вафли", price: 350,
+        desc: "Хрустящие вафли с ягодами и соусом.",
+        addons: [
+          { group: "Добавки", label: "Шарик мороженого", price: 80 },
+          { group: "Добавки", label: "Топпинг", price: 40 }
+        ]
+      },
+      {
+        id: "dessert-san-sebastian", cat: "desserts", name: "Сан-Себастьян", price: 420,
+        desc: "Нежный чизкейк с карамельной корочкой.",
+        addons: [
+          { group: "Добавки", label: "Шарик мороженого", price: 80 },
+          { group: "Добавки", label: "Топпинг", price: 40 }
+        ]
+      },
+      {
+        id: "dessert-pancakes", cat: "desserts", name: "Блины", price: 290,
+        desc: "Тонкие блины с начинкой на выбор.",
+        addons: [
+          { group: "Добавки", label: "Шарик мороженого", price: 80 },
+          { group: "Добавки", label: "Топпинг", price: 40 }
+        ]
+      },
+      {
+        id: "dessert-pakhlava", cat: "desserts", name: "Пахлава", price: 250,
+        desc: "Слоёная пахлава с орехами и мёдом.",
+        addons: [
+          { group: "Добавки", label: "Шарик мороженого", price: 80 },
+          { group: "Добавки", label: "Топпинг", price: 40 }
+        ]
+      }
+    ]
+  };
+})();
+
+</script>
+<script>
+/* =========================================================
+   GARDEN — движок электронного меню
+   Всё живёт внутри одной функции gardenBoot(), чтобы страницу
+   можно было целиком скачать одним файлом index.html вместе с данными.
+   ========================================================= */
+
+function gardenBoot() {
+  "use strict";
+
+  var ROOT = document.getElementById("garden-app");
+  if (!ROOT || ROOT.getAttribute("data-booted") === "1") return;
+  ROOT.setAttribute("data-booted", "1");
+
+  var EMBEDDED = window.GARDEN_DATA;
+  if (!EMBEDDED || !EMBEDDED.dishes) return;
+
+  var LS_DATA = "garden.menu.v2";
+  var LS_CART = "garden.cart.v2";
+  var LS_TABLE = "garden.table.v1";
+  var SS_OWNER = "garden.owner.v1";
+
+  var layer = null;
+  var menuEl = null;
+  var chipsEl = null;
+  var cartbar = null;
+  var toastEl = null;
+  var ownerHost = null;
+  var toastTimer = null;
+
+  var ui = {
+    q: "",
+    cat: "all",
+    sheet: null,
+    dish: null,
+    owner: false,
+    ownerTab: "dishes",
+    ownerQ: "",
+    edit: null,
+    confirm: null
+  };
+
+  var DATA = loadData();
+  var cart = loadCart();
+
+  /* ---------------- утилиты ---------------- */
+
+  function clone(v) {
+    return JSON.parse(JSON.stringify(v));
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (m) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
+    });
+  }
+
+  function uid(prefix) {
+    return (prefix || "id") + "-" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  }
+
+  function readJSON(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function writeJSON(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (e) {
+      toast("Не хватает памяти браузера. Удалите большие фото или используйте ссылки.");
+      return false;
+    }
+  }
+
+  function plural(n, one, few, many) {
+    var a = Math.abs(n) % 100;
+    var b = a % 10;
+    if (a > 10 && a < 20) return many;
+    if (b > 1 && b < 5) return few;
+    if (b === 1) return one;
+    return many;
+  }
+
+  function money(n) {
+    var v = Math.round(Number(n) || 0);
+    return v.toLocaleString("ru-RU").replace(/\u00A0/g, " ") + " " + (DATA.brand.currency || "₽");
+  }
+
+  function initial(name) {
+    var s = String(name || "").replace(/[«»"']/g, "").trim();
+    return (s.charAt(0) || "G").toUpperCase();
+  }
+
+  function catName(id) {
+    var c = DATA.categories.find(function (x) { return x.id === id; });
+    return c ? c.name : "Без раздела";
+  }
+
+  function catIndex(id) {
+    var i = DATA.categories.findIndex(function (x) { return x.id === id; });
+    return i < 0 ? 0 : i;
+  }
+
+  function dishById(id) {
+    return DATA.dishes.find(function (d) { return d.id === id; }) || null;
+  }
+
+  function toast(text) {
+    if (!toastEl) return;
+    toastEl.textContent = text;
+    toastEl.classList.add("is-on");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toastEl.classList.remove("is-on");
+    }, 2600);
+  }
+
+  function lockScroll() {
+    document.documentElement.classList.add("garden-lock");
+  }
+
+  function unlockScroll() {
+    if (ui.owner) return;
+    if (!layer || !layer.classList.contains("is-open")) {
+      document.documentElement.classList.remove("garden-lock");
+    }
+  }
+
+  /* ---------------- данные ---------------- */
+
+  function normalize(d) {
+    if (!d || !Array.isArray(d.dishes) || !Array.isArray(d.categories)) return null;
+
+    var b = d.brand || {};
+    d.brand = {
+      name: b.name || "Garden",
+      tagline: b.tagline || "кофе · кухня · бар",
+      subtitle: b.subtitle || "электронное меню",
+      hours: b.hours || "10:00 — 23:00",
+      address: b.address || "",
+      phone: b.phone || "",
+      whatsapp: b.whatsapp || "",
+      currency: b.currency || "₽",
+      pin: b.pin == null ? "1234" : String(b.pin),
+      note: b.note || "Покажите собранный заказ официанту — он всё принесёт.",
+      instagram: b.instagram || ""
+    };
+
+    d.categories = d.categories
+      .filter(function (c) { return c && c.id && c.name; })
+      .map(function (c) { return { id: String(c.id), name: String(c.name) }; });
+
+    if (!d.categories.length) {
+      d.categories = [{ id: "menu", name: "Меню" }];
+    }
+
+    d.dishes = d.dishes
+      .filter(function (x) { return x && x.id && x.name; })
+      .map(function (x) {
+        return {
+          id: String(x.id),
+          cat: String(x.cat || d.categories[0].id),
+          name: String(x.name),
+          price: Math.max(0, Number(x.price) || 0),
+          desc: x.desc ? String(x.desc) : "",
+          image: x.image ? String(x.image) : "",
+          badge: x.badge ? String(x.badge) : "",
+          hidden: !!x.hidden,
+          sizes: Array.isArray(x.sizes)
+            ? x.sizes.filter(function (s) { return s && s.label; }).map(function (s) {
+                return { label: String(s.label), extra: Math.max(0, Number(s.extra) || 0) };
+              })
+            : [],
+          addons: Array.isArray(x.addons)
+            ? x.addons.filter(function (a) { return a && a.label; }).map(function (a) {
+                return {
+                  group: a.group ? String(a.group) : "Добавки",
+                  label: String(a.label),
+                  price: Math.max(0, Number(a.price) || 0)
+                };
+              })
+            : []
+        };
+      });
+
+    d.updatedAt = Number(d.updatedAt) || 0;
+    return d;
+  }
+
+  function loadData() {
+    var base = normalize(clone(EMBEDDED));
+    var local = readJSON(LS_DATA);
+    if (local && Number(local.updatedAt) > Number(base.updatedAt)) {
+      var fixed = normalize(local);
+      if (fixed) return fixed;
+    }
+    return base;
+  }
+
+  function saveData() {
+    DATA.updatedAt = Date.now();
+    writeJSON(LS_DATA, DATA);
+  }
+
+  function loadCart() {
+    var raw = readJSON(LS_CART);
+    if (!Array.isArray(raw)) return [];
+    return raw
+      .filter(function (i) {
+        return i && i.key && i.name && i.qty > 0;
+      })
+      .map(function (i) {
+        return {
+          key: String(i.key),
+          id: String(i.id || ""),
+          name: String(i.name),
+          price: Math.max(0, Number(i.price) || 0),
+          qty: Math.max(1, Math.min(99, Number(i.qty) || 1)),
+          size: i.size ? String(i.size) : "",
+          extras: Array.isArray(i.extras) ? i.extras : [],
+          image: i.image ? String(i.image) : "",
+          cat: i.cat ? String(i.cat) : ""
+        };
+      });
+  }
+
+  function saveCart() {
+    writeJSON(LS_CART, cart);
+  }
+
+  /* ---------------- иконки ---------------- */
+
+  var IC = {
+    leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4C11 5 5 10.5 5 17.5c0 2.3 1.7 4 4 4 7 0 11.5-6 11-17Z"/><path d="M4 21c2.6-4.6 6.3-8.2 11-10.5"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>',
+    bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8.5h13l1 11.5h-15l1-11.5Z"/><path d="M9 8.5V6.7a3 3 0 0 1 6 0v1.8"/></svg>',
+    clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>',
+    arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="m13 6 6 6-6 6"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="11" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2"/></svg>',
+    wa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .9.9-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.1-.2 0-.4.1-.5l.5-.6c.1-.2.1-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.8.8-1 1.9-.7 3.1.5 1.9 2 3.5 3.8 4.4 1.5.8 2.7.8 3.4.7.7-.1 1.3-.7 1.5-1.3.2-.6.2-1.1.1-1.2Z"/></svg>',
+    close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>',
+    pencil: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 20 4.2-1 10-10a2.1 2.1 0 0 0-3-3l-10 10L4 20Z"/><path d="m13.5 6.5 3 3"/></svg>',
+    trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V5h6v2"/><path d="m6 7 1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg>',
+    lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V8a4 4 0 0 1 8 0v2"/></svg>',
+    up: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 14 6-6 6 6"/></svg>',
+    down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m6 10 6 6 6-6"/></svg>',
+    image: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 5-5 4 4 3-3 4 4"/></svg>',
+    gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.1 2.1-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2h-3v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1L6 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H4.7v-3h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9L6 8l2.1-2.1.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5v-.2h3v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.4 8l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.2v3h-.2a1.7 1.7 0 0 0-1.1 1Z"/></svg>'
+  };
+
+  /* ---------------- каркас ---------------- */
+
+  function renderShell() {
+    ROOT.innerHTML =
+      '<div class="g-topbar"><div class="g-topbar-in">' +
+        '<button class="g-logo" data-act="home" aria-label="Garden — в начало">' +
+          '<span class="g-logo-mark">' + IC.leaf + '</span>' +
+          '<span class="g-logo-text" data-brand-name>Garden</span>' +
+        '</button>' +
+        '<div class="g-searchfield" data-searchfield>' +
+          IC.search +
+          '<input class="g-search-input" data-search-input type="text" placeholder="Блюдо или раздел" aria-label="Поиск по меню" autocomplete="off">' +
+          '<button class="g-search-clear" data-act="clear-search" aria-label="Очистить или закрыть поиск">' + IC.close + '</button>' +
+        '</div>' +
+        '<div class="g-actions">' +
+          '<button class="g-round g-search-open" data-act="open-search" aria-label="Поиск">' + IC.search + '</button>' +
+          '<button class="g-cart-button" data-act="open-cart" aria-label="Корзина">' + IC.bag + '<span class="g-cart-count" data-cart-count>0</span></button>' +
+        '</div>' +
+      '</div></div>' +
+
+      '<header class="g-hero" id="garden-hero">' +
+        '<span class="g-hero-leaf">' + IC.leaf + '</span>' +
+        '<div class="g-hero-in">' +
+          '<p class="g-eyebrow"><span class="g-eyebrow-dot">' + IC.leaf + '</span><span data-brand-subtitle>электронное меню</span></p>' +
+          '<h1 class="g-title" data-brand-title>Garden</h1>' +
+          '<p class="g-tagline" data-brand-tagline>кофе · кухня · бар</p>' +
+          '<div class="g-hero-meta">' +
+            '<span data-hours-wrap>' + IC.clock + '<b data-brand-hours></b></span>' +
+            '<span data-address-wrap hidden>' + IC.pin + '<b data-brand-address></b></span>' +
+          '</div>' +
+        '</div>' +
+      '</header>' +
+
+      '<div class="g-chips-wrap"><nav class="g-chips" data-chips aria-label="Разделы меню"></nav></div>' +
+      '<main class="g-menu" data-menu></main>' +
+      '<footer class="g-footer">' +
+        '<p class="g-footer-brand" data-brand-foot>Garden</p>' +
+        '<p data-brand-note></p>' +
+        '<button class="g-footer-owner" data-act="owner">Для владельца</button>' +
+      '</footer>' +
+      '<button class="g-cartbar" data-cartbar data-act="open-cart" aria-label="Открыть корзину"></button>' +
+      '<div class="g-layer" data-layer></div>' +
+      '<div class="g-toast" data-toast role="status" aria-live="polite"></div>' +
+      '<div data-ownerhost></div>';
+
+    layer = ROOT.querySelector("[data-layer]");
+    menuEl = ROOT.querySelector("[data-menu]");
+    chipsEl = ROOT.querySelector("[data-chips]");
+    cartbar = ROOT.querySelector("[data-cartbar]");
+    toastEl = ROOT.querySelector("[data-toast]");
+    ownerHost = ROOT.querySelector("[data-ownerhost]");
+
+    cartbar.innerHTML =
+      '<span class="g-cartbar-count" data-cartbar-count>0</span>' +
+      '<span class="g-cartbar-text">' +
+        '<span class="g-cartbar-title">Корзина</span>' +
+        '<span class="g-cartbar-sum" data-cartbar-sum></span>' +
+      '</span>' +
+      '<span class="g-cartbar-go">Открыть ' + IC.arrow + '</span>';
+  }
+
+  function renderAll() {
+    renderChrome();
+    renderChips();
+    renderMenu();
+    renderCart();
+  }
+
+  function renderChrome() {
+    var b = DATA.brand;
+    var setText = function (sel, val) {
+      ROOT.querySelectorAll(sel).forEach(function (el) { el.textContent = val; });
+    };
+    setText("[data-brand-name]", b.name);
+    setText("[data-brand-title]", b.name);
+    setText("[data-brand-subtitle]", b.subtitle);
+    setText("[data-brand-tagline]", b.tagline);
+    setText("[data-brand-hours]", b.hours);
+    setText("[data-brand-foot]", b.name + " · " + b.subtitle);
+
+    var addrWrap = ROOT.querySelector("[data-address-wrap]");
+    if (b.address) {
+      addrWrap.hidden = false;
+      addrWrap.querySelector("[data-brand-address]").textContent = b.address;
+    } else {
+      addrWrap.hidden = true;
+    }
+
+    var hoursWrap = ROOT.querySelector("[data-hours-wrap]");
+    hoursWrap.hidden = !b.hours;
+
+    ROOT.querySelector("[data-brand-note]").textContent = b.note;
+
+    var search = ROOT.querySelector(".g-search-input");
+    search.placeholder = "Блюдо или раздел";
+  }
+
+  function visibleDishes() {
+    var q = ui.q.trim().toLowerCase();
+    return DATA.dishes.filter(function (d) {
+      if (d.hidden) return false;
+      if (ui.cat !== "all" && d.cat !== ui.cat) return false;
+      if (!q) return true;
+      if (d.name.toLowerCase().indexOf(q) !== -1) return true;
+      if (d.desc && d.desc.toLowerCase().indexOf(q) !== -1) return true;
+      if (catName(d.cat).toLowerCase().indexOf(q) !== -1) return true;
+      return d.addons.some(function (a) { return a.label.toLowerCase().indexOf(q) !== -1; });
+    });
+  }
+
+  function groups(list) {
+    var out = [];
+    DATA.categories.forEach(function (c) {
+      var items = list.filter(function (d) { return d.cat === c.id; });
+      if (items.length) out.push({ cat: c, items: items });
+    });
+    var known = DATA.categories.map(function (c) { return c.id; });
+    var lost = list.filter(function (d) { return known.indexOf(d.cat) === -1; });
+    if (lost.length) out.push({ cat: { id: "", name: "Без раздела" }, items: lost });
+    return out;
+  }
+
+  function renderChips() {
+    var total = DATA.dishes.filter(function (d) { return !d.hidden; }).length;
+    var html = '<button class="g-chip' + (ui.cat === "all" ? " is-active" : "") + '" data-act="cat" data-cat="all">Всё меню <span class="g-chip-count">' + total + '</span></button>';
+    DATA.categories.forEach(function (c) {
+      var n = DATA.dishes.filter(function (d) { return !d.hidden && d.cat === c.id; }).length;
+      if (!n) return;
+      html += '<button class="g-chip' + (ui.cat === c.id ? " is-active" : "") + '" data-act="cat" data-cat="' + esc(c.id) + '">' + esc(c.name) + ' <span class="g-chip-count">' + n + '</span></button>';
+    });
+    chipsEl.innerHTML = html;
+  }
+
+  function mediaHtml(dish, cls) {
+    var tone = "tone-" + ((catIndex(dish.cat) % 4) + 1);
+    if (dish.image) {
+      return '<div class="' + cls + ' ' + tone + '"><img class="g-card-img" src="' + esc(dish.image) + '" alt="' + esc(dish.name) + '" loading="lazy"><span class="g-mono" hidden>' + esc(initial(dish.name)) + '</span></div>';
+    }
+    return '<div class="' + cls + ' ' + tone + '"><span class="g-mono">' + esc(initial(dish.name)) + '</span></div>';
+  }
+
+  function cardHtml(d) {
+    var from = d.sizes.some(function (s) { return s.extra > 0; });
+    var price = (from ? '<small>от </small>' : "") + money(d.price);
+    return '<div class="g-card" role="button" tabindex="0" data-dish="' + esc(d.id) + '" aria-label="' + esc(d.name + ", " + money(d.price)) + '">' +
+      '<div class="g-card-media-wrap">' + mediaHtml(d, "g-card-media") +
+        (d.badge ? '<span class="g-card-badge">' + esc(d.badge) + '</span>' : "") +
+      '</div>' +
+      '<div class="g-card-name">' + esc(d.name) + '</div>' +
+      '<div class="g-card-price">' + price + '</div>' +
+    '</div>';
+  }
+
+  function renderMenu() {
+    var list = visibleDishes();
+    if (!list.length) {
+      menuEl.innerHTML =
+        '<div class="g-empty">' +
+          '<div class="g-empty-ico">' + IC.search + '</div>' +
+          '<h3 class="g-empty-title">Ничего не нашлось</h3>' +
+          '<p class="g-empty-text">Попробуйте другое название или сбросьте фильтры — в меню ' + DATA.dishes.filter(function (d) { return !d.hidden; }).length + ' позиций.</p>' +
+          '<button class="g-btn" data-act="reset-filters">Показать всё меню</button>' +
+        '</div>';
+      return;
+    }
+
+    var html = "";
+    groups(list).forEach(function (g) {
+      html += '<section class="g-sec">' +
+        '<div class="g-sec-head">' +
+          '<h2 class="g-sec-title">' + esc(g.cat.name) + '</h2>' +
+          '<span class="g-sec-count">' + g.items.length + '</span>' +
+          '<span class="g-sec-line"></span>' +
+        '</div>' +
+        '<div class="g-grid">' + g.items.map(cardHtml).join("") + '</div>' +
+      '</section>';
+    });
+    menuEl.innerHTML = html;
+  }
+
+  function cartCount() {
+    return cart.reduce(function (s, i) { return s + i.qty; }, 0);
+  }
+
+  function cartSum() {
+    return cart.reduce(function (s, i) { return s + i.qty * i.price; }, 0);
+  }
+
+  function renderCart() {
+    var n = cartCount();
+    var sum = cartSum();
+    var badge = ROOT.querySelector("[data-cart-count]");
+    badge.textContent = n > 99 ? "99+" : String(n);
+    badge.classList.toggle("is-on", n > 0);
+
+    ROOT.querySelector("[data-cartbar-count]").textContent = n;
+    ROOT.querySelector("[data-cartbar-sum]").textContent = n
+      ? plural(n, "1 позиция", n + " позиции", n + " позиций") + " · " + money(sum)
+      : "";
+    cartbar.classList.toggle("is-on", n > 0);
+  }
+
+  /* ---------------- слой / шторки ---------------- */
+
+  function openLayer(html) {
+    layer.innerHTML = '<div class="g-backdrop" data-act="close-sheet"></div>' + html;
+    layer.classList.add("is-open");
+    lockScroll();
+  }
+
+  function closeLayer() {
+    if (!layer) return;
+    layer.classList.remove("is-open");
+    layer.innerHTML = "";
+    ui.sheet = null;
+    ui.dish = null;
+    unlockScroll();
+  }
+
+  function closeSearch() {
+    ROOT.classList.remove("is-searching");
+  }
+
+  function openSearch() {
+    ROOT.classList.add("is-searching");
+    var input = ROOT.querySelector(".g-search-input");
+    setTimeout(function () { input.focus(); }, 40);
+  }
+
+  /* ---------------- карточка блюда ---------------- */
+
+  function dishUnit(d) {
+    if (!ui.dish) return d.price;
+    var s = d.sizes[ui.dish.size];
+    var unit = d.price + (s ? s.extra : 0);
+    Object.keys(ui.dish.addons).forEach(function (k) {
+      if (ui.dish.addons[k] && d.addons[k]) unit += d.addons[k].price;
+    });
+    return unit;
+  }
+
+  function refreshDishTotal() {
+    if (!ui.dish) return;
+    var d = ui.dish.dish;
+    var el = layer.querySelector("[data-add-total]");
+    if (el) el.textContent = "В корзину · " + money(dishUnit(d) * ui.dish.qty);
+    var q = layer.querySelector("[data-dish-qty]");
+    if (q) q.textContent = ui.dish.qty;
+    var minus = layer.querySelector('[data-act="dish-qty"][data-d="-1"]');
+    if (minus) minus.disabled = ui.dish.qty <= 1;
+  }
+
+  function openDish(id) {
+    var d = dishById(id);
+    if (!d) return;
+    ui.sheet = "dish";
+    ui.dish = { dish: d, size: 0, addons: {}, qty: 1 };
+
+    var media = mediaHtml(d, "g-dish-media");
+    if (d.badge) {
+      media = media.replace("</div>", '<span class="g-card-badge">' + esc(d.badge) + "</span></div>");
+    }
+
+    var sizes = "";
+    if (d.sizes.length) {
+      sizes = '<div class="g-group"><div class="g-group-title">Объём <span>выберите один</span></div><div class="g-opts">' +
+        d.sizes.map(function (s, i) {
+          return '<button class="g-opt' + (i === 0 ? " is-active" : "") + '" data-act="size" data-i="' + i + '">' + esc(s.label) + (s.extra ? ' <small>+' + money(s.extra) + '</small>' : "") + '</button>';
+        }).join("") +
+      '</div></div>';
+    }
+
+    var addons = "";
+    var seen = [];
+    d.addons.forEach(function (a) {
+      if (seen.indexOf(a.group) !== -1) return;
+      seen.push(a.group);
+      var items = d.addons.map(function (x, i) { return { x: x, i: i }; }).filter(function (o) { return o.x.group === a.group; });
+      addons += '<div class="g-group"><div class="g-group-title">' + esc(a.group) + ' <span>можно несколько</span></div><div class="g-opts">' +
+        items.map(function (o) {
+          return '<button class="g-opt" data-act="addon" data-i="' + o.i + '">' + esc(o.x.label) + (o.x.price ? ' <small>+' + money(o.x.price) + '</small>' : ' <small>бесплатно</small>') + '</button>';
+        }).join("") +
+      '</div></div>';
+    });
+
+    var html =
+      '<div class="g-sheet" role="dialog" aria-modal="true" aria-label="' + esc(d.name) + '">' +
+        '<div class="g-sheet-grab"></div>' +
+        '<button class="g-sheet-close" data-act="close-sheet" aria-label="Закрыть">' + IC.close + '</button>' +
+        '<div class="g-sheet-scroll">' +
+          media +
+          '<div class="g-sheet-pad">' +
+            '<h2 class="g-dish-title">' + esc(d.name) + '</h2>' +
+            (d.desc ? '<p class="g-dish-desc">' + esc(d.desc) + '</p>' : "") +
+            '<div class="g-dish-price"><strong>' + money(d.price) + '</strong>' + (d.sizes.some(function (s) { return s.extra > 0; }) ? '<span>цена за базовый объём</span>' : "") + '</div>' +
+            sizes + addons +
+          '</div>' +
+        '</div>' +
+        '<div class="g-sheet-foot">' +
+          '<div class="g-stepper">' +
+            '<button data-act="dish-qty" data-d="-1" aria-label="Меньше" disabled>−</button>' +
+            '<span class="g-stepper-val" data-dish-qty>1</span>' +
+            '<button data-act="dish-qty" data-d="1" aria-label="Больше">+</button>' +
+          '</div>' +
+          '<button class="g-add-btn" data-act="add-cart"><span data-add-total>В корзину · ' + money(d.price) + '</span></button>' +
+        '</div>' +
+      '</div>';
+
+    openLayer(html);
+    refreshDishTotal();
+  }
+
+  function addCurrentToCart() {
+    if (!ui.dish) return;
+    var d = ui.dish.dish;
+    var size = d.sizes[ui.dish.size] || null;
+    var extras = [];
+    Object.keys(ui.dish.addons).forEach(function (k) {
+      if (ui.dish.addons[k] && d.addons[k]) {
+        extras.push({ label: d.addons[k].label, price: d.addons[k].price, group: d.addons[k].group });
+      }
+    });
+    var key = d.id + "|" + (size ? size.label : "") + "|" + extras.map(function (e) { return e.label; }).sort().join(",");
+    var found = cart.find(function (i) { return i.key === key; });
+    if (found) {
+      found.qty = Math.min(99, found.qty + ui.dish.qty);
+    } else {
+      cart.unshift({
+        key: key,
+        id: d.id,
+        name: d.name,
+        price: dishUnit(d),
+        qty: ui.dish.qty,
+        size: size ? size.label : "",
+        extras: extras,
+        image: d.image,
+        cat: d.cat
+      });
+    }
+    saveCart();
+    renderCart();
+    closeLayer();
+    toast("Добавлено: " + d.name);
+  }
+
+  /* ---------------- корзина ---------------- */
+
+  function orderText() {
+    var lines = [];
+    var n = cartCount();
+    lines.push(DATA.brand.name + " · заказ");
+    var table = (readJSON(LS_TABLE) || {}).table || "";
+    if (table) lines.push("Столик: " + table);
+    lines.push("");
+    cart.forEach(function (i) {
+      var title = i.name + (i.size ? " (" + i.size + ")" : "");
+      lines.push(i.qty + " × " + title + " — " + money(i.price * i.qty));
+      if (i.extras && i.extras.length) {
+        lines.push("   + " + i.extras.map(function (e) { return e.label; }).join(", "));
+      }
+    });
+    lines.push("");
+    lines.push("Итого: " + money(cartSum()) + " · " + plural(n, "1 позиция", n + " позиции", n + " позиций"));
+    return lines.join("\n");
+  }
+
+  function copyText(text) {
+    var done = function () { toast("Скопировано"); };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
+    }
+    function fallback() {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        done();
+      } catch (e) {
+        toast("Не удалось скопировать. Выделите текст вручную.");
+      }
+    }
+  }
+
+  function paintCartSheet() {
+    var table = (readJSON(LS_TABLE) || {}).table || "";
+    var html;
+
+    if (!cart.length) {
+      html =
+        '<div class="g-sheet" role="dialog" aria-modal="true" aria-label="Корзина">' +
+          '<div class="g-sheet-grab"></div>' +
+          '<div class="g-sheet-head"><h2>Корзина</h2><button class="g-sheet-close" data-act="close-sheet" aria-label="Закрыть">' + IC.close + '</button></div>' +
+          '<div class="g-sheet-scroll">' +
+            '<div class="g-cart-empty">' + IC.bag +
+              '<h3 class="g-empty-title">Пока пусто</h3>' +
+              '<p>Добавляйте блюда — они появятся здесь, чтобы вы ничего не забыли.</p>' +
+              '<button class="g-btn" data-act="close-sheet" style="margin-top:16px">Перейти к меню</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      layer.innerHTML = '<div class="g-backdrop" data-act="close-sheet"></div>' + html;
+      return;
+    }
+
+    var items = cart.map(function (i) {
+      var thumb = i.image
+        ? '<div class="g-cart-thumb"><img src="' + esc(i.image) + '" alt=""></div>'
+        : '<div class="g-cart-thumb"><span class="g-mono">' + esc(initial(i.name)) + '</span></div>';
+      var extra = i.extras && i.extras.length ? i.extras.map(function (e) { return e.label; }).join(", ") : "";
+      return '<div class="g-cart-item">' + thumb +
+        '<div class="g-cart-info">' +
+          '<div class="g-cart-name">' + esc(i.name) + '</div>' +
+          (i.size || extra ? '<div class="g-cart-meta">' + esc([i.size, extra].filter(Boolean).join(" · ")) + '</div>' : "") +
+          '<div class="g-cart-row">' +
+            '<div class="g-stepper">' +
+              '<button data-act="cart-qty" data-key="' + esc(i.key) + '" data-d="-1" aria-label="Меньше">−</button>' +
+              '<span class="g-stepper-val">' + i.qty + '</span>' +
+              '<button data-act="cart-qty" data-key="' + esc(i.key) + '" data-d="1" aria-label="Больше">+</button>' +
+            '</div>' +
+            '<span class="g-cart-price">' + money(i.price * i.qty) + '</span>' +
+          '</div>' +
+          '<button class="g-cart-remove" data-act="cart-remove" data-key="' + esc(i.key) + '">Убрать</button>' +
+        '</div>' +
+      '</div>';
+    }).join("");
+
+    var wa = String(DATA.brand.whatsapp || "").replace(/\D/g, "");
+    var primary = wa
+      ? '<button class="g-btn g-btn-primary" data-act="wa-order">' + IC.wa + ' WhatsApp</button>'
+      : '<button class="g-btn g-btn-primary" data-act="copy-order">' + IC.copy + ' Скопировать</button>';
+    var secondary = wa
+      ? '<button class="g-btn" data-act="copy-order">' + IC.copy + ' Скопировать</button>'
+      : '<button class="g-btn" data-act="close-sheet">Показать официанту</button>';
+
+    html =
+      '<div class="g-sheet g-sheet-cart" role="dialog" aria-modal="true" aria-label="Корзина">' +
+        '<div class="g-sheet-grab"></div>' +
+        '<div class="g-sheet-head">' +
+          '<h2>Корзина</h2>' +
+          '<span class="g-sheet-count">' + plural(cartCount(), "1 позиция", cartCount() + " позиции", cartCount() + " позиций") + '</span>' +
+          '<button class="g-sheet-close" data-act="close-sheet" aria-label="Закрыть">' + IC.close + '</button>' +
+        '</div>' +
+        '<div class="g-sheet-scroll">' +
+          '<div class="g-cart-list">' + items + '</div>' +
+          '<div class="g-cart-tools">' +
+            '<label class="g-field"><span>Номер столика — необязательно</span><input class="g-input" data-table type="text" inputmode="numeric" placeholder="Например, 5" value="' + esc(table) + '"></label>' +
+            '<p class="g-cart-note">' + esc(DATA.brand.note) + '</p>' +
+          '</div>' +
+        '</div>' +
+        '<div class="g-sheet-foot g-cart-foot">' +
+          '<div class="g-total"><span>Итого</span><strong>' + money(cartSum()) + '</strong></div>' +
+          '<div class="g-cart-actions">' + secondary + primary + '</div>' +
+          '<div style="text-align:center;margin-top:10px"><button class="g-cart-remove" data-act="cart-clear">Очистить корзину</button></div>' +
+        '</div>' +
+      '</div>';
+
+    layer.innerHTML = '<div class="g-backdrop" data-act="close-sheet"></div>' + html;
+  }
+
+  function openCart() {
+    ui.sheet = "cart";
+    paintCartSheet();
+    layer.classList.add("is-open");
+    lockScroll();
+  }
+
+  /* ================= РЕЖИМ ВЛАДЕЛЬЦА ================= */
+
+  function openOwner() {
+    var unlocked = false;
+    try { unlocked = sessionStorage.getItem(SS_OWNER) === "1"; } catch (e) {}
+    if (DATA.brand.pin && !unlocked) {
+      openPin();
+      return;
+    }
+    ui.owner = true;
+    ui.edit = null;
+    renderOwner();
+    lockScroll();
+  }
+
+  function closeOwner() {
+    ui.owner = false;
+    ui.edit = null;
+    ownerHost.innerHTML = "";
+    unlockScroll();
+  }
+
+  function renderOwner() {
+    if (!ui.owner) return;
+    var tabs = [
+      { id: "dishes", name: "Блюда" },
+      { id: "categories", name: "Разделы" },
+      { id: "settings", name: "Настройки" },
+      { id: "data", name: "Публикация" }
+    ];
+    var tabHtml = tabs.map(function (t) {
+      return '<button class="g-tab' + (ui.ownerTab === t.id ? " is-active" : "") + '" data-act="owner-tab" data-tab="' + t.id + '">' + t.name + '</button>';
+    }).join("");
+
+    ownerHost.innerHTML =
+      '<div class="g-owner" role="dialog" aria-modal="true" aria-label="Панель владельца">' +
+        '<div class="g-owner-head">' +
+          '<div><h2>Панель владельца</h2><span class="g-owner-sub">' + esc(DATA.brand.name) + ' · редактирование меню</span></div>' +
+          '<button class="g-sheet-close" data-act="owner-close" aria-label="Закрыть">' + IC.close + '</button>' +
+        '</div>' +
+        '<div class="g-tabs">' + tabHtml + '</div>' +
+        '<div class="g-owner-body" data-owner-body></div>' +
+      '</div>';
+
+    paintOwnerBody();
+  }
+
+  function paintOwnerBody() {
+    var body = ownerHost.querySelector("[data-owner-body]");
+    if (!body) return;
+    if (ui.ownerTab === "dishes") {
+      body.innerHTML = ui.edit ? dishFormHtml() : dishesTabHtml();
+      if (!ui.edit) paintDishList();
+    } else if (ui.ownerTab === "categories") {
+      body.innerHTML = categoriesTabHtml();
+    } else if (ui.ownerTab === "settings") {
+      body.innerHTML = settingsTabHtml();
+    } else {
+      body.innerHTML = dataTabHtml();
+    }
+    body.scrollTop = 0;
+  }
+
+  function dishesTabHtml() {
+    return '<div class="g-owner-inner">' +
+      '<p class="g-owner-note">Каждое блюдо — отдельная карточка. Меняйте название, цену, фото и описание, копируйте блюда и переносите их между разделами. Изменения сразу видны в этом браузере.</p>' +
+      '<div class="g-owner-toolbar">' +
+        '<input class="g-input" data-owner-search type="text" placeholder="Найти блюдо" value="' + esc(ui.ownerQ) + '">' +
+        '<button class="g-btn g-btn-primary" data-act="owner-add-dish">+ Блюдо</button>' +
+      '</div>' +
+      '<div data-owner-list></div>' +
+    '</div>';
+  }
+
+  function ownerThumb(d) {
+    if (d.image) return '<div class="g-row-thumb"><img src="' + esc(d.image) + '" alt=""></div>';
+    return '<div class="g-row-thumb"><span class="g-mono">' + esc(initial(d.name)) + '</span></div>';
+  }
+
+  function paintDishList() {
+    var list = ownerHost.querySelector("[data-owner-list]");
+    if (!list) return;
+    var q = ui.ownerQ.trim().toLowerCase();
+    var filtered = DATA.dishes.filter(function (d) {
+      if (!q) return true;
+      return (d.name + " " + d.desc + " " + catName(d.cat)).toLowerCase().indexOf(q) !== -1;
+    });
+
+    var html = '<div class="g-owner-list">';
+    if (!filtered.length) {
+      html += '<div class="g-empty" style="padding:30px 16px"><p class="g-empty-text">Ничего не найдено. Попробуйте другой запрос.</p></div>';
+    } else {
+      groups(filtered).forEach(function (g) {
+        html += '<div class="g-owner-cat-head"><span>' + esc(g.cat.name) + '</span><span class="g-owner-cat-count">' + g.items.length + '</span></div>';
+        g.items.forEach(function (d) {
+          html += '<div class="g-row">' +
+            ownerThumb(d) +
+            '<div class="g-row-main">' +
+              '<div class="g-row-name">' + esc(d.name) + '</div>' +
+              '<div class="g-row-sub">' + money(d.price) + (d.hidden ? " · скрыто" : "") + (d.sizes.length ? " · " + plural(d.sizes.length, d.sizes.length + " объём", d.sizes.length + " объёма", d.sizes.length + " объёмов") : "") + '</div>' +
+            '</div>' +
+            '<div class="g-row-actions">' +
+              '<button class="g-mini" data-act="dish-move" data-id="' + esc(d.id) + '" data-d="-1" aria-label="Выше">' + IC.up + '</button>' +
+              '<button class="g-mini" data-act="dish-move" data-id="' + esc(d.id) + '" data-d="1" aria-label="Ниже">' + IC.down + '</button>' +
+              '<button class="g-mini" data-act="owner-copy" data-id="' + esc(d.id) + '" aria-label="Копировать">' + IC.copy + '</button>' +
+              '<button class="g-mini" data-act="owner-edit" data-id="' + esc(d.id) + '" aria-label="Редактировать">' + IC.pencil + '</button>' +
+              '<button class="g-mini is-danger" data-act="owner-del" data-id="' + esc(d.id) + '" aria-label="Удалить">' + IC.trash + '</button>' +
+            '</div>' +
+          '</div>';
+        });
+      });
+    }
+    html += '</div>';
+    list.innerHTML = html;
+  }
+
+  function startEdit(id) {
+    if (id) {
+      var d = dishById(id);
+      if (!d) return;
+      ui.edit = clone(d);
+      ui.edit.isNew = false;
+    } else {
+      ui.edit = {
+        isNew: true,
+        id: "",
+        cat: ui.cat !== "all" ? ui.cat : (DATA.categories[0] || {}).id,
+        name: "",
+        price: 0,
+        desc: "",
+        image: "",
+        badge: "",
+        hidden: false,
+        sizes: [],
+        addons: []
+      };
+    }
+    paintOwnerBody();
+    var inp = ownerHost.querySelector('[name="name"]');
+    if (inp) setTimeout(function () { inp.focus(); }, 50);
+  }
+
+  function dishFormHtml() {
+    var e = ui.edit;
+    var catOptions = DATA.categories.map(function (c) {
+      return '<option value="' + esc(c.id) + '"' + (c.id === e.cat ? " selected" : "") + '>' + esc(c.name) + '</option>';
+    }).join("");
+
+    var sizes = e.sizes.map(function (s, i) {
+      return '<div class="g-sub-row" data-size-row>' +
+        '<input class="g-input" data-size-label placeholder="250 мл" value="' + esc(s.label) + '">' +
+        '<input class="g-input" data-size-extra type="number" min="0" step="10" placeholder="+ ₽" value="' + (s.extra || "") + '">' +
+        '<button class="g-mini is-danger" data-act="size-del" data-i="' + i + '" aria-label="Удалить объём">×</button>' +
+      '</div>';
+    }).join("");
+
+    var addons = e.addons.map(function (a, i) {
+      return '<div class="g-sub-row g-sub-row-3" data-addon-row>' +
+        '<input class="g-input" data-addon-group placeholder="Сиропы" value="' + esc(a.group) + '">' +
+        '<input class="g-input" data-addon-label placeholder="Ваниль" value="' + esc(a.label) + '">' +
+        '<input class="g-input" data-addon-price type="number" min="0" step="10" placeholder="₽" value="' + (a.price || "") + '">' +
+        '<button class="g-mini is-danger" data-act="addon-del" data-i="' + i + '" aria-label="Удалить добавку">×</button>' +
+      '</div>';
+    }).join("");
+
+    var preview = e.image
+      ? '<div class="g-img-preview" data-img-preview><img src="' + esc(e.image) + '" alt=""></div>'
+      : '<div class="g-img-preview" data-img-preview>' + IC.image + '<span style="margin-left:8px">Фото не выбрано</span></div>';
+
+    return '<div class="g-owner-inner">' +
+      '<div class="g-form" data-dish-form>' +
+        '<div class="g-form-title">' + (e.isNew ? "Новое блюдо" : "Редактирование блюда") + '</div>' +
+
+        '<label class="g-field"><span>Название</span><input class="g-input" name="name" type="text" value="' + esc(e.name) + '" placeholder="Например, Капучино"></label>' +
+
+        '<div class="g-form-2">' +
+          '<label class="g-field"><span>Цена, ' + esc(DATA.brand.currency) + '</span><input class="g-input" name="price" type="number" min="0" step="10" value="' + (e.price || "") + '" placeholder="250"></label>' +
+          '<label class="g-field"><span>Раздел</span><select class="g-input" name="cat">' + catOptions + '</select></label>' +
+        '</div>' +
+
+        '<label class="g-field"><span>Описание</span><textarea class="g-input" name="desc" placeholder="Коротко и вкусно">' + esc(e.desc) + '</textarea></label>' +
+
+        '<label class="g-field"><span>Ссылка на фото</span><input class="g-input" name="image" type="text" value="' + esc(e.image) + '" placeholder="https://... (необязательно)"></label>' +
+        preview +
+        '<div class="g-add-row" style="margin:0 0 12px">' +
+          '<label class="g-btn" style="flex:1;overflow:hidden;position:relative">Загрузить с телефона<input type="file" accept="image/*" data-img-file style="position:absolute;inset:0;opacity:0;cursor:pointer"></label>' +
+          (e.image ? '<button class="g-btn" data-act="img-clear">Убрать</button>' : "") +
+        '</div>' +
+        '<p class="g-hint">Лучше вставлять ссылку на фото (например, из файлов на сайте или фотохостинге). Загрузка с телефона сохраняет фото внутри страницы и делает её тяжелее.</p>' +
+
+        '<div class="g-form-2">' +
+          '<label class="g-field"><span>Плашка (необязательно)</span><input class="g-input" name="badge" type="text" value="' + esc(e.badge) + '" placeholder="хит, новинка"></label>' +
+          '<label class="g-field" style="display:flex;align-items:flex-end"><span class="g-check" style="margin-bottom:10px"><input type="checkbox" name="hidden"' + (e.hidden ? " checked" : "") + '> Скрыть из меню</span></label>' +
+        '</div>' +
+
+        '<div class="g-form-title" style="margin-top:6px">Объёмы</div>' +
+        '<p class="g-hint">Первый объём — базовый, его цена равна цене блюда. Для остальных укажите доплату.</p>' +
+        sizes +
+        '<button class="g-btn g-btn-ghost g-sub-add" data-act="size-add">+ добавить объём</button>' +
+
+        '<div class="g-form-title" style="margin-top:16px">Добавки и сиропы</div>' +
+        '<p class="g-hint">Группа — это заголовок в карточке: «Сиропы», «Добавки», «К роллам». Цена может быть 0.</p>' +
+        addons +
+        '<button class="g-btn g-btn-ghost g-sub-add" data-act="addon-add">+ добавить добавку</button>' +
+
+        '<div class="g-savebar">' +
+          '<button class="g-btn g-btn-primary" data-act="dish-save">Сохранить</button>' +
+          '<button class="g-btn" data-act="dish-cancel">Отмена</button>' +
+          (!e.isNew ? '<button class="g-btn g-btn-ghost" data-act="dish-delete" style="color:#b4472f">Удалить</button>' : "") +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function readDishForm() {
+    var f = ownerHost.querySelector("[data-dish-form]");
+    if (!f || !ui.edit) return;
+    var e = ui.edit;
+    var val = function (name) {
+      var el = f.querySelector('[name="' + name + '"]');
+      return el ? el.value : "";
+    };
+    e.name = val("name").trim();
+    e.price = Math.max(0, Number(val("price")) || 0);
+    e.cat = val("cat") || e.cat;
+    e.desc = val("desc").trim();
+    e.image = val("image").trim();
+    e.badge = val("badge").trim();
+    var hidden = f.querySelector('[name="hidden"]');
+    e.hidden = !!(hidden && hidden.checked);
+
+    e.sizes = [];
+    f.querySelectorAll("[data-size-row]").forEach(function (row) {
+      var label = row.querySelector("[data-size-label]").value.trim();
+      var extra = Math.max(0, Number(row.querySelector("[data-size-extra]").value) || 0);
+      if (label) e.sizes.push({ label: label, extra: extra });
+    });
+
+    e.addons = [];
+    f.querySelectorAll("[data-addon-row]").forEach(function (row) {
+      var label = row.querySelector("[data-addon-label]").value.trim();
+      var group = row.querySelector("[data-addon-group]").value.trim() || "Добавки";
+      var price = Math.max(0, Number(row.querySelector("[data-addon-price]").value) || 0);
+      if (label) e.addons.push({ group: group, label: label, price: price });
+    });
+  }
+
+  function saveDish() {
+    readDishForm();
+    var e = ui.edit;
+    if (!e.name) { toast("Введите название блюда"); return; }
+    if (!e.cat) e.cat = (DATA.categories[0] || {}).id;
+
+    var dish = {
+      id: e.id || uid("dish"),
+      cat: e.cat,
+      name: e.name,
+      price: e.price,
+      desc: e.desc,
+      image: e.image,
+      badge: e.badge,
+      hidden: e.hidden,
+      sizes: e.sizes,
+      addons: e.addons
+    };
+
+    if (e.isNew) {
+      var last = -1;
+      DATA.dishes.forEach(function (x, i) { if (x.cat === dish.cat) last = i; });
+      if (last >= 0) DATA.dishes.splice(last + 1, 0, dish);
+      else DATA.dishes.push(dish);
+    } else {
+      var idx = DATA.dishes.findIndex(function (x) { return x.id === dish.id; });
+      if (idx >= 0) DATA.dishes[idx] = dish;
+    }
+
+    saveData();
+    ui.edit = null;
+    renderAll();
+    paintOwnerBody();
+    toast("Блюдо сохранено");
+  }
+
+  function copyDish(id) {
+    var src = dishById(id);
+    if (!src) return;
+    var idx = DATA.dishes.findIndex(function (x) { return x.id === id; });
+    var copy = clone(src);
+    copy.id = uid("dish");
+    copy.name = src.name + " (копия)";
+    DATA.dishes.splice(idx + 1, 0, copy);
+    saveData();
+    renderAll();
+    paintOwnerBody();
+    toast("Карточка скопирована");
+  }
+
+  function deleteDish(id) {
+    var d = dishById(id);
+    if (!d) return;
+    askConfirm("Удалить блюдо?", "«" + d.name + "» исчезнет из меню. Это действие нельзя отменить.", "Удалить", function () {
+      DATA.dishes = DATA.dishes.filter(function (x) { return x.id !== id; });
+      saveData();
+      ui.edit = null;
+      renderAll();
+      paintOwnerBody();
+      toast("Блюдо удалено");
+    }, true);
+  }
+
+  function moveDish(id, dir) {
+    var idx = DATA.dishes.findIndex(function (x) { return x.id === id; });
+    if (idx < 0) return;
+    var cat = DATA.dishes[idx].cat;
+    var positions = [];
+    DATA.dishes.forEach(function (x, i) { if (x.cat === cat) positions.push(i); });
+    var pos = positions.indexOf(idx);
+    var target = positions[pos + dir];
+    if (target == null) return;
+    var tmp = DATA.dishes[target];
+    DATA.dishes[target] = DATA.dishes[idx];
+    DATA.dishes[idx] = tmp;
+    saveData();
+    renderAll();
+    paintDishList();
+  }
+
+  /* ---------------- разделы ---------------- */
+
+  function categoriesTabHtml() {
+    var rows = DATA.categories.map(function (c) {
+      var n = DATA.dishes.filter(function (d) { return d.cat === c.id; }).length;
+      return '<div class="g-cat-row">' +
+        '<input class="g-cat-input" data-cat-name data-id="' + esc(c.id) + '" value="' + esc(c.name) + '" aria-label="Название раздела">' +
+        '<span class="g-owner-cat-count" style="min-width:24px;text-align:center">' + n + '</span>' +
+        '<button class="g-mini" data-act="cat-move" data-id="' + esc(c.id) + '" data-d="-1" aria-label="Выше">' + IC.up + '</button>' +
+        '<button class="g-mini" data-act="cat-move" data-id="' + esc(c.id) + '" data-d="1" aria-label="Ниже">' + IC.down + '</button>' +
+        '<button class="g-mini is-danger" data-act="cat-del" data-id="' + esc(c.id) + '" aria-label="Удалить раздел">' + IC.trash + '</button>' +
+      '</div>';
+    }).join("");
+
+    return '<div class="g-owner-inner">' +
+      '<p class="g-owner-note">Раздел «Без названия» стоит перед «Гарнирами» — впишите его настоящее название. Пустые разделы не видны гостям, пока в них нет блюд, но здесь они всегда доступны.</p>' +
+      '<div class="g-owner-list">' + rows + '</div>' +
+      '<div class="g-add-row">' +
+        '<input class="g-input" data-new-cat type="text" placeholder="Название нового раздела" maxlength="60">' +
+        '<button class="g-btn g-btn-primary" data-act="cat-add">Добавить</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function addCategory() {
+    var inp = ownerHost.querySelector("[data-new-cat]");
+    var name = inp ? inp.value.trim() : "";
+    if (!name) { toast("Введите название раздела"); return; }
+    if (DATA.categories.some(function (c) { return c.name.toLowerCase() === name.toLowerCase(); })) {
+      toast("Такой раздел уже есть");
+      return;
+    }
+    DATA.categories.push({ id: uid("cat"), name: name });
+    saveData();
+    renderAll();
+    paintOwnerBody();
+    toast("Раздел создан");
+  }
+
+  function deleteCategory(id) {
+    if (DATA.categories.length <= 1) { toast("Нельзя удалить последний раздел"); return; }
+    var c = DATA.categories.find(function (x) { return x.id === id; });
+    if (!c) return;
+    var count = DATA.dishes.filter(function (d) { return d.cat === id; }).length;
+    var other = DATA.categories.find(function (x) { return x.id !== id; });
+    var text = count
+      ? "В разделе «" + c.name + "» " + plural(count, count + " блюдо", count + " блюда", count + " блюд") + ". Они переедут в «" + other.name + "»."
+      : "Раздел «" + c.name + "» пуст. Его можно удалить.";
+    askConfirm("Удалить раздел?", text, "Удалить", function () {
+      DATA.dishes.forEach(function (d) { if (d.cat === id) d.cat = other.id; });
+      DATA.categories = DATA.categories.filter(function (x) { return x.id !== id; });
+      saveData();
+      renderAll();
+      paintOwnerBody();
+      toast("Раздел удалён");
+    }, true);
+  }
+
+  function moveCategory(id, dir) {
+    var i = DATA.categories.findIndex(function (c) { return c.id === id; });
+    var j = i + dir;
+    if (i < 0 || j < 0 || j >= DATA.categories.length) return;
+    var tmp = DATA.categories[i];
+    DATA.categories[i] = DATA.categories[j];
+    DATA.categories[j] = tmp;
+    saveData();
+    renderAll();
+    paintOwnerBody();
+  }
+
+  /* ---------------- настройки ---------------- */
+
+  function settingsTabHtml() {
+    var b = DATA.brand;
+    var field = function (name, label, value, placeholder, type) {
+      return '<label class="g-field"><span>' + label + '</span><input class="g-input" data-brand-field="' + name + '" type="' + (type || "text") + '" value="' + esc(value) + '" placeholder="' + esc(placeholder || "") + '"></label>';
+    };
+    return '<div class="g-owner-inner">' +
+      '<p class="g-owner-note">Название, часы и контакты показываются в шапке и в заказе. WhatsApp нужен, чтобы кнопка отправки заказа работала.</p>' +
+      '<div class="g-form">' +
+        field("name", "Название кафе", b.name) +
+        field("tagline", "Подпись под названием", b.tagline) +
+        field("subtitle", "Надпись на плашке", b.subtitle) +
+        '<div class="g-form-2">' +
+          field("hours", "Часы работы", b.hours) +
+          field("currency", "Валюта", b.currency) +
+        '</div>' +
+        field("address", "Адрес (необязательно)", b.address) +
+        '<div class="g-form-2">' +
+          field("phone", "Телефон", b.phone, "+7 ...", "tel") +
+          field("whatsapp", "WhatsApp для заказов", b.whatsapp, "+7 ...", "tel") +
+        '</div>' +
+        '<label class="g-field"><span>Текст под корзиной</span><textarea class="g-input" data-brand-field="note">' + esc(b.note) + '</textarea></label>' +
+        field("pin", "PIN для входа владельца", b.pin, "например, 1234") +
+        '<p class="g-hint">PIN по умолчанию — 1234. Поменяйте его, чтобы гости не попали в редактор. Пустой PIN отключает защиту.</p>' +
+        '<button class="g-btn g-btn-primary g-btn-block" data-act="brand-save">Сохранить настройки</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function saveBrand() {
+    ownerHost.querySelectorAll("[data-brand-field]").forEach(function (el) {
+      DATA.brand[el.getAttribute("data-brand-field")] = el.value.trim();
+    });
+    saveData();
+    renderAll();
+    paintOwnerBody();
+    toast("Настройки сохранены");
+  }
+
+  /* ---------------- публикация и данные ---------------- */
+
+  function dataTabHtml() {
+    var local = readJSON(LS_DATA);
+    var dirty = local && Number(local.updatedAt) > Number(EMBEDDED.updatedAt);
+    var total = DATA.dishes.filter(function (d) { return !d.hidden; }).length;
+
+    return '<div class="g-owner-inner">' +
+      '<p class="g-owner-note">Меню собрано из карточек: ' + total + ' ' + plural(total, "позиция", "позиции", "позиций") + ' в ' + DATA.categories.length + ' ' + plural(DATA.categories.length, "разделе", "разделах", "разделах") + '. Здесь вы переносите правки на настоящий сайт.</p>' +
+
+      '<div class="g-status"><span class="g-status-dot' + (dirty ? " is-warn" : "") + '"></span><div>' +
+        (dirty
+          ? '<b>Есть неопубликованные изменения.</b> В этом браузере меню уже новое, но гости видят старую версию, пока вы не обновите файл на сайте.'
+          : '<b>Всё опубликовано.</b> Этот браузер показывает версию, которая стоит на сайте.') +
+      '</div></div>' +
+
+      '<div class="g-form">' +
+        '<div class="g-form-title">Публикация на сайте</div>' +
+        '<button class="g-btn g-btn-primary g-btn-block" data-act="publish-download">Скачать index.html с изменениями</button>' +
+        '<button class="g-btn g-btn-block" data-act="publish-copy" style="margin-top:8px">Скопировать код страницы</button>' +
+        '<p class="g-hint" style="margin:12px 0 0">' +
+          '1. Нажмите «Скачать index.html» — файл сохранится на устройство.<br>' +
+          '2. Откройте <a href="https://github.com/garden-cafe/garden-cafe.github.io/upload/main" target="_blank" rel="noopener">репозиторий на GitHub</a> (кнопка «Add file» → «Upload files»).<br>' +
+          '3. Перетащите скачанный index.html и нажмите «Commit changes».<br>' +
+          '4. Через 1–2 минуты обновите меню у гостей. Адрес сайта не меняется.' +
+        '</p>' +
+      '</div>' +
+
+      '<div class="g-form">' +
+        '<div class="g-form-title">Резервная копия</div>' +
+        '<div class="g-savebar" style="margin-top:0">' +
+          '<button class="g-btn" data-act="export-json">Скачать JSON</button>' +
+          '<button class="g-btn" data-act="import-json">Загрузить JSON</button>' +
+        '</div>' +
+        '<p class="g-hint" style="margin:10px 0 0">JSON — это все блюда, цены и настройки одним файлом. Сохраните его перед большими правками, чтобы можно было вернуться.</p>' +
+        '<button class="g-btn g-btn-ghost g-btn-block" data-act="reset-data" style="color:#b4472f;margin-top:6px">Сбросить к опубликованной версии</button>' +
+      '</div>' +
+
+      '<div class="g-form">' +
+        '<div class="g-form-title">Как это работает</div>' +
+        '<p class="g-hint" style="margin:0">Правки сохраняются в браузере автоматически. Чтобы их увидели гости, скачайте index.html и загрузите этот файл в репозиторий на GitHub (Add file → Upload files → Commit changes). Адрес https://garden-cafe.github.io никогда не меняется, поэтому QR-код можно печатать сразу. Данные живут внутри страницы — отдельный сервер и база данных не нужны.</p>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function buildBlockHtml() {
+    var styleEl = document.getElementById("garden-style");
+    if (!styleEl) {
+      toast("Не найден блок стилей страницы");
+      return "";
+    }
+    var css = styleEl.textContent;
+    var json = JSON.stringify(DATA).replace(/</g, "\\u003c");
+    var src = gardenBoot.toString();
+
+    return "<!-- GARDEN · электронное меню -->\n" +
+      '<style id="garden-style">\n' + css + '\n</style>\n' +
+      '<div id="garden-app" class="garden"></div>\n' +
+      '<script>window.GARDEN_DATA = ' + json + ';<\/script>\n' +
+      '<script>\n(' + src + ')();\n<\/script>';
+  }
+
+  // Целая страница: её и загружают в репозиторий GitHub вместо старого index.html.
+  function buildPageHtml() {
+    var block = buildBlockHtml();
+    if (!block) return "";
+    var title = (DATA.brand.name || "Garden") + " — " + (DATA.brand.subtitle || "электронное меню");
+    var theme = "#0a2417";
+
+    return "<!DOCTYPE html>\n" +
+      '<html lang="ru">\n' +
+      '<head>\n' +
+      '<meta charset="utf-8">\n' +
+      '<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+      '<title>' + esc(title) + '</title>\n' +
+      '<meta name="theme-color" content="' + theme + '">\n' +
+      '<style>html,body{margin:0;padding:0;background:#fbfbf8}body{-webkit-text-size-adjust:100%}</style>\n' +
+      '</head>\n' +
+      '<body>\n' +
+      block + '\n' +
+      '</body>\n' +
+      '</html>';
+  }
+
+  function download(filename, text, type) {
+    try {
+      var blob = new Blob([text], { type: type || "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+        a.remove();
+      }, 600);
+    } catch (e) {
+      toast("Не удалось скачать файл");
+    }
+  }
+
+  function exportJSON() {
+    download("garden-menu.json", JSON.stringify(DATA, null, 2), "application/json;charset=utf-8");
+    toast("Файл с данными скачан");
+  }
+
+  function importJSON() {
+    var input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".json,application/json";
+    input.style.display = "none";
+    document.body.appendChild(input);
+    input.addEventListener("change", function () {
+      var file = input.files && input.files[0];
+      if (!file) { input.remove(); return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        try {
+          var parsed = normalize(JSON.parse(String(reader.result)));
+          if (!parsed) throw new Error("bad");
+          DATA = parsed;
+          saveData();
+          renderAll();
+          paintOwnerBody();
+          toast("Данные загружены");
+        } catch (e) {
+          toast("Не удалось прочитать JSON");
+        }
+        input.remove();
+      };
+      reader.readAsText(file);
+    });
+    input.click();
+  }
+
+  function resetData() {
+    askConfirm("Сбросить правки?", "Вернутся блюда, цены и настройки, которые сейчас опубликованы на сайте. Локальные изменения будут потеряны.", "Сбросить", function () {
+      try { localStorage.removeItem(LS_DATA); } catch (e) {}
+      DATA = normalize(clone(EMBEDDED));
+      renderAll();
+      paintOwnerBody();
+      toast("Вернулись к опубликованной версии");
+    }, true);
+  }
+
+  /* ---------------- подтверждение и PIN ---------------- */
+
+  function askConfirm(title, text, okLabel, cb, danger) {
+    ui.confirm = cb;
+    openLayer(
+      '<div class="g-confirm" role="alertdialog" aria-modal="true">' +
+        '<h3>' + esc(title) + '</h3>' +
+        '<p>' + esc(text) + '</p>' +
+        '<div class="g-confirm-actions">' +
+          '<button class="g-btn" data-act="confirm-no">Отмена</button>' +
+          '<button class="g-btn ' + (danger ? "g-btn-danger" : "g-btn-primary") + '" data-act="confirm-yes">' + esc(okLabel) + '</button>' +
+        '</div>' +
+      '</div>'
+    );
+  }
+
+  function openPin() {
+    var hint = DATA.brand.pin === "1234" ? "PIN по умолчанию — 1234. Его можно изменить в настройках после входа." : "Введите PIN из настроек меню.";
+    openLayer(
+      '<div class="g-sheet" role="dialog" aria-modal="true" aria-label="Вход для владельца">' +
+        '<div class="g-sheet-grab"></div>' +
+        '<button class="g-sheet-close" data-act="close-sheet" aria-label="Закрыть">' + IC.close + '</button>' +
+        '<div class="g-pin">' +
+          '<div class="g-pin-ico">' + IC.lock + '</div>' +
+          '<h3>Вход для владельца</h3>' +
+          '<p>' + esc(hint) + '</p>' +
+          '<input class="g-input" data-pin-input type="tel" inputmode="numeric" maxlength="8" placeholder="••••" aria-label="PIN">' +
+          '<div class="g-pin-err" data-pin-err hidden>Неверный PIN</div>' +
+          '<button class="g-btn g-btn-primary" data-act="pin-ok">Войти</button>' +
+        '</div>' +
+      '</div>'
+    );
+    setTimeout(function () {
+      var el = layer.querySelector("[data-pin-input]");
+      if (el) el.focus();
+    }, 80);
+  }
+
+  function tryPin() {
+    var el = layer.querySelector("[data-pin-input]");
+    var err = layer.querySelector("[data-pin-err]");
+    if (!el) return;
+    if (el.value.trim() === DATA.brand.pin) {
+      try { sessionStorage.setItem(SS_OWNER, "1"); } catch (e) {}
+      closeLayer();
+      setTimeout(openOwner, 40);
+    } else {
+      if (err) err.hidden = false;
+      el.value = "";
+      el.focus();
+    }
+  }
+
+  /* ---------------- события ---------------- */
+
+  function scrollToMenuStart() {
+    var m = ROOT.querySelector(".g-menu");
+    if (!m) return;
+    var y = m.getBoundingClientRect().top + window.pageYOffset - 112;
+    if (window.pageYOffset > y) {
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  }
+
+  function closeSearch() {
+    ROOT.classList.remove("is-searching");
+    var input = ROOT.querySelector(".g-search-input");
+    if (input && input.value) {
+      input.value = "";
+      ui.q = "";
+      var sf = ROOT.querySelector("[data-searchfield]");
+      if (sf) sf.classList.remove("has-value");
+      renderChips();
+      renderMenu();
+    }
+  }
+
+  function onClick(e) {
+    var card = e.target.closest ? e.target.closest("[data-dish]") : null;
+    if (card && ROOT.contains(card)) {
+      openDish(card.getAttribute("data-dish"));
+      return;
+    }
+
+    var el = e.target.closest ? e.target.closest("[data-act]") : null;
+    if (!el || !ROOT.contains(el)) return;
+    var act = el.getAttribute("data-act");
+    var i;
+
+    switch (act) {
+      case "home":
+        closeSearch();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        break;
+
+      case "open-search":
+        openSearch();
+        break;
+
+      case "clear-search": {
+        var input = ROOT.querySelector(".g-search-input");
+        if (input && input.value) {
+          input.value = "";
+          ui.q = "";
+          var sf = ROOT.querySelector("[data-searchfield]");
+          if (sf) sf.classList.remove("has-value");
+          renderChips();
+          renderMenu();
+        } else {
+          closeSearch();
+        }
+        break;
+      }
+
+      case "cat": {
+        var cat = el.getAttribute("data-cat");
+        ui.cat = cat;
+        ui.q = "";
+        var si = ROOT.querySelector(".g-search-input");
+        if (si) si.value = "";
+        var sf2 = ROOT.querySelector("[data-searchfield]");
+        if (sf2) sf2.classList.remove("has-value");
+        closeSearch();
+        renderChips();
+        renderMenu();
+        scrollToMenuStart();
+        break;
+      }
+
+      case "reset-filters":
+        ui.cat = "all";
+        ui.q = "";
+        var si2 = ROOT.querySelector(".g-search-input");
+        if (si2) si2.value = "";
+        renderChips();
+        renderMenu();
+        break;
+
+      case "open-cart":
+        openCart();
+        break;
+
+      case "close-sheet":
+        closeLayer();
+        break;
+
+      case "size":
+        if (!ui.dish) break;
+        ui.dish.size = Number(el.getAttribute("data-i")) || 0;
+        layer.querySelectorAll('[data-act="size"]').forEach(function (b) {
+          b.classList.toggle("is-active", b === el);
+        });
+        refreshDishTotal();
+        break;
+
+      case "addon":
+        if (!ui.dish) break;
+        i = el.getAttribute("data-i");
+        ui.dish.addons[i] = !ui.dish.addons[i];
+        el.classList.toggle("is-active", !!ui.dish.addons[i]);
+        refreshDishTotal();
+        break;
+
+      case "dish-qty":
+        if (!ui.dish) break;
+        ui.dish.qty = Math.max(1, Math.min(99, ui.dish.qty + Number(el.getAttribute("data-d"))));
+        refreshDishTotal();
+        break;
+
+      case "add-cart":
+        addCurrentToCart();
+        break;
+
+      case "cart-qty": {
+        var key = el.getAttribute("data-key");
+        var d = Number(el.getAttribute("data-d"));
+        var item = cart.find(function (x) { return x.key === key; });
+        if (!item) break;
+        item.qty += d;
+        if (item.qty <= 0) cart = cart.filter(function (x) { return x.key !== key; });
+        saveCart();
+        renderCart();
+        var sc = layer.querySelector(".g-sheet-scroll");
+        var st = sc ? sc.scrollTop : 0;
+        paintCartSheet();
+        var sc2 = layer.querySelector(".g-sheet-scroll");
+        if (sc2) sc2.scrollTop = st;
+        break;
+      }
+
+      case "cart-remove":
+        cart = cart.filter(function (x) { return x.key !== el.getAttribute("data-key"); });
+        saveCart();
+        renderCart();
+        paintCartSheet();
+        break;
+
+      case "cart-clear":
+        askConfirm("Очистить корзину?", "Все выбранные блюда исчезнут.", "Очистить", function () {
+          cart = [];
+          saveCart();
+          renderCart();
+          setTimeout(openCart, 60);
+        }, true);
+        break;
+
+      case "copy-order":
+        if (!cart.length) break;
+        copyText(orderText());
+        break;
+
+      case "wa-order": {
+        var digits = String(DATA.brand.whatsapp || "").replace(/\D/g, "");
+        if (!digits) { toast("Добавьте номер WhatsApp в настройках"); break; }
+        window.open("https://wa.me/" + digits + "?text=" + encodeURIComponent(orderText()), "_blank");
+        break;
+      }
+
+      case "owner":
+        openOwner();
+        break;
+
+      case "pin-ok":
+        tryPin();
+        break;
+
+      case "owner-close":
+        closeOwner();
+        break;
+
+      case "owner-tab":
+        ui.ownerTab = el.getAttribute("data-tab");
+        ui.edit = null;
+        renderOwner();
+        break;
+
+      case "owner-add-dish":
+        startEdit(null);
+        break;
+
+      case "owner-edit":
+        startEdit(el.getAttribute("data-id"));
+        break;
+
+      case "owner-copy":
+        copyDish(el.getAttribute("data-id"));
+        break;
+
+      case "owner-del":
+        deleteDish(el.getAttribute("data-id"));
+        break;
+
+      case "dish-move":
+        moveDish(el.getAttribute("data-id"), Number(el.getAttribute("data-d")));
+        break;
+
+      case "dish-save":
+        saveDish();
+        break;
+
+      case "dish-cancel":
+        ui.edit = null;
+        paintOwnerBody();
+        break;
+
+      case "dish-delete":
+        if (ui.edit && ui.edit.id) deleteDish(ui.edit.id);
+        break;
+
+      case "size-add":
+        readDishForm();
+        if (ui.edit) { ui.edit.sizes.push({ label: "", extra: 0 }); paintOwnerBody(); }
+        break;
+
+      case "size-del":
+        readDishForm();
+        if (ui.edit) { ui.edit.sizes.splice(Number(el.getAttribute("data-i")), 1); paintOwnerBody(); }
+        break;
+
+      case "addon-add":
+        readDishForm();
+        if (ui.edit) { ui.edit.addons.push({ group: "Добавки", label: "", price: 0 }); paintOwnerBody(); }
+        break;
+
+      case "addon-del":
+        readDishForm();
+        if (ui.edit) { ui.edit.addons.splice(Number(el.getAttribute("data-i")), 1); paintOwnerBody(); }
+        break;
+
+      case "cat-add":
+        addCategory();
+        break;
+
+      case "cat-del":
+        deleteCategory(el.getAttribute("data-id"));
+        break;
+
+      case "cat-move":
+        moveCategory(el.getAttribute("data-id"), Number(el.getAttribute("data-d")));
+        break;
+
+      case "brand-save":
+        saveBrand();
+        break;
+
+      case "img-clear":
+        readDishForm();
+        if (ui.edit) { ui.edit.image = ""; paintOwnerBody(); }
+        break;
+
+      case "publish-copy": {
+        var code = buildPageHtml();
+        if (code) {
+          copyText(code);
+          setTimeout(function () {
+            toast("Код страницы скопирован (index.html)");
+          }, 120);
+        }
+        break;
+      }
+
+      case "publish-download": {
+        var page = buildPageHtml();
+        if (page) {
+          download("index.html", page);
+          toast("Файл index.html скачан — загрузите его в репозиторий на GitHub");
+        }
+        break;
+      }
+
+      case "export-json":
+        exportJSON();
+        break;
+
+      case "import-json":
+        importJSON();
+        break;
+
+      case "reset-data":
+        resetData();
+        break;
+
+      case "confirm-yes": {
+        var cb = ui.confirm;
+        ui.confirm = null;
+        closeLayer();
+        if (cb) cb();
+        break;
+      }
+
+      case "confirm-no":
+        ui.confirm = null;
+        closeLayer();
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  function onInput(e) {
+    var t = e.target;
+
+    if (t.matches("[data-search-input]")) {
+      ui.q = t.value;
+      var sf = ROOT.querySelector("[data-searchfield]");
+      if (sf) sf.classList.toggle("has-value", !!t.value);
+      if (ui.q && ui.cat !== "all") {
+        ui.cat = "all";
+        renderChips();
+      }
+      renderMenu();
+      if (ui.q) scrollToMenuStart();
+      return;
+    }
+
+    if (t.matches("[data-owner-search]")) {
+      ui.ownerQ = t.value;
+      paintDishList();
+      return;
+    }
+
+    if (t.matches("[data-table]")) {
+      writeJSON(LS_TABLE, { table: t.value.trim() });
+      return;
+    }
+
+    if (t.matches('[name="image"]')) {
+      var prev = ownerHost.querySelector("[data-img-preview]");
+      if (prev) {
+        prev.innerHTML = t.value
+          ? '<img src="' + esc(t.value) + '" alt="">'
+          : IC.image + '<span style="margin-left:8px">Фото не выбрано</span>';
+      }
+    }
+  }
+
+  function onChange(e) {
+    var t = e.target;
+
+    if (t.matches("[data-img-file]")) {
+      var file = t.files && t.files[0];
+      if (!file) return;
+      if (!/^image\//.test(file.type)) { toast("Это не изображение"); return; }
+      var reader = new FileReader();
+      reader.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          var max = 900;
+          var k = Math.min(1, max / Math.max(img.width, img.height));
+          var canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(img.width * k));
+          canvas.height = Math.max(1, Math.round(img.height * k));
+          canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+          var out = canvas.toDataURL("image/jpeg", 0.82);
+          readDishForm();
+          if (!ui.edit) return;
+          ui.edit.image = out;
+          paintOwnerBody();
+          toast("Фото загружено");
+        };
+        img.onerror = function () { toast("Не удалось прочитать фото"); };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+      return;
+    }
+
+    if (t.matches("[data-cat-name]")) {
+      var id = t.getAttribute("data-id");
+      var val = t.value.trim();
+      var c = DATA.categories.find(function (x) { return x.id === id; });
+      if (!c) return;
+      if (!val) { toast("Название не может быть пустым"); t.value = c.name; return; }
+      var dup = DATA.categories.some(function (x) { return x.id !== id && x.name.toLowerCase() === val.toLowerCase(); });
+      if (dup) { toast("Такой раздел уже есть"); t.value = c.name; return; }
+      c.name = val;
+      saveData();
+      renderAll();
+      paintOwnerBody();
+      toast("Раздел переименован");
+    }
+  }
+
+  function onKey(e) {
+    if (e.key === "Escape") {
+      if (layer && layer.classList.contains("is-open")) {
+        ui.confirm = null;
+        closeLayer();
+      } else if (ui.owner) {
+        closeOwner();
+      } else {
+        closeSearch();
+      }
+      return;
+    }
+
+    if ((e.key === "Enter" || e.key === " ") && e.target.classList && e.target.classList.contains("g-card")) {
+      e.preventDefault();
+      openDish(e.target.getAttribute("data-dish"));
+      return;
+    }
+
+    if (e.key === "Enter" && e.target.matches && e.target.matches("[data-pin-input]")) {
+      e.preventDefault();
+      tryPin();
+    }
+  }
+
+  function onImgError(e) {
+    var img = e.target;
+    if (!img || img.tagName !== "IMG") return;
+    var host = img.parentNode;
+    if (!host) return;
+    var mono = host.querySelector(".g-mono");
+    if (mono) mono.hidden = false;
+    img.remove();
+  }
+
+  function bind() {
+    ROOT.addEventListener("click", onClick);
+    ROOT.addEventListener("input", onInput);
+    ROOT.addEventListener("change", onChange);
+    ROOT.addEventListener("error", onImgError, true);
+    document.addEventListener("keydown", onKey);
+  }
+
+  function injectFonts() {
+    if (document.getElementById("garden-fonts")) return;
+    var link = document.createElement("link");
+    link.id = "garden-fonts";
+    link.rel = "stylesheet";
+    link.href = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap";
+    document.head.appendChild(link);
+  }
+
+  /* ---------------- старт ---------------- */
+
+  renderShell();
+  bind();
+  renderAll();
+  injectFonts();
+}
+
+gardenBoot();
+
+</script>
+</body>
+</html>
